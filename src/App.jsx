@@ -232,7 +232,7 @@ function App() {
                         />
                     </li>
                     <li>
-                        <div className="w-[50px] h-[50px] rounded-full bg-[#D9D9D9] flex items-center justify-center">
+                        <div className="cursor-pointer w-[50px] h-[50px] rounded-full bg-[#D9D9D9] flex items-center justify-center">
                             <img src="/perfil.png" alt="Perfil" className="w-[46px] h-[46px]" />
                         </div>
                     </li>
@@ -308,7 +308,7 @@ function App() {
                         )}
 
                         </div>
-                        <button onClick={() => setIsNoteModalOpen(true)} className="w-3/5 self-center bg-[#4F77F1] text-white border-none rounded-lg h-8 text-xs font-bold hover:bg-[#3f66d4] mt-3">
+                        <button onClick={() => setIsNoteModalOpen(true)} className="cursor-pointer w-3/5 self-center bg-[#4F77F1] text-white border-none rounded-lg h-8 text-xs font-bold hover:bg-[#3f66d4] mt-3">
                             + add nota
                         </button>
                     </div>
@@ -324,14 +324,14 @@ function App() {
                             <button 
                                 id="control-timer-btn"
                                 onClick={handleControlTimer}
-                className="w-1/2 bg-[#4F77F1] text-white border-none rounded-lg h-8 text-xs font-bold hover:bg-[#3f66d4] disabled:bg-[#374D77] disabled:opacity-70 disabled:cursor-not-allowed"
+                className="cursor-pointer w-1/2 bg-[#4F77F1] text-white border-none rounded-lg h-8 text-xs font-bold hover:bg-[#3f66d4] disabled:bg-[#374D77] disabled:opacity-70 disabled:cursor-not-allowed"
               >
                 {timerState === 'running' ? 'Pausar' : (totalSeconds === 0 ? 'Ativar Timer' : 'Iniciar')}
                             </button>
                             <button 
                                 id="reset-timer-btn"
                                 onClick={resetTimer}
-                                className="w-1/2 bg-transparent border-2 border-[#374D77] text-[#A0AABF] rounded-lg h-8 text-xs font-bold hover:bg-[#374D77] hover:text-white"
+                                className="cursor-pointer w-1/2 bg-transparent border-2 border-[#374D77] text-[#A0AABF] rounded-lg h-8 text-xs font-bold hover:bg-[#374D77] hover:text-white"
                             >
                                 Recomeçar
                             </button>
