@@ -1,5 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
-import './index.css'; 
+import { Routes, Route } from 'react-router-dom';
+import './index.css';
+import SobreNos from './pages/SobreNos';
+import Login from './pages/Login';
+import Signup from './pages/Signup';
+import Welcome from './pages/Welcome';
+import Help from './pages/Help';
+import Local from './pages/Local';
+import Plano from './pages/Plano';
 
 function App() {
   const [isActivityModalOpen, setIsActivityModalOpen] = useState(false);
@@ -120,6 +128,15 @@ function App() {
   };
 
   return (
+    <Routes>
+  <Route path="/login" element={<Login />} />
+  <Route path="/signup" element={<Signup />} />
+  <Route path="/welcome" element={<Welcome />} />
+  <Route path="/sobre" element={<SobreNos />} />
+  <Route path="/help" element={<Help />} />
+  <Route path="/local" element={<Local />} />
+  <Route path="/plano" element={<Plano />} />
+      <Route path="/" element={
     <>
       {/* --- MODAIS --- */}
       <div id="activity-modal" 
@@ -179,10 +196,10 @@ function App() {
         >
             {/* LOGO */}
             <div className="flex items-center w-full justify-start pl-2 pt-4 mb-7"> 
-                <div className="w-10 h-10 bg-[#4f77f1] rounded-full flex items-center justify-center shrink-0">
-                    <img src="/logo.png" alt="Logo" className="w-8 h-8" />
-                </div>
-                <h3 className="text-base font-medium ml-2 opacity-100">Rotinas</h3>
+        <div className="w-11 h-11 bg-[#4f77f1] rounded-full flex items-center justify-center shrink-0">
+          <img src="/logo.png" alt="Logo" className="w-10 h-9" />
+        </div>
+                <h3 className="text-base ml-2 opacity-100">Rotinas</h3>
             </div>
 
             {/* BOTÃO + ADICIONAR (Altura e Cor de Fundo Corrigidas) */}
@@ -342,6 +359,8 @@ function App() {
         </div>
       </div>
     </>
+      } />
+    </Routes>
   )
 }
 

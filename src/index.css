@@ -1,1 +1,12 @@
 @import "tailwindcss";
+
+/* Use Inter as the global font for the project. The font file is
+	 loaded via a <link> in index.html (Google Fonts). We declare this
+	 in Tailwind's base layer so utilities like .font-sans will map to it.
+*/
+@layer base {
+	body {
+		font-family: 'Inter', ui-sans-serif, system-ui, -apple-system,
+			"Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+	}
+}
