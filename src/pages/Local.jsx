@@ -34,7 +34,7 @@ export default function Local() {
       </main>
       <footer className="bottom-navigation w-full flex justify-between items-center px-8 py-6 sticky bottom-0 z-10">
         <div className="nav-arrow left-arrow text-3xl text-white">
-          <Link to="/welcome">&#10094;</Link>
+          <Link to="/help">&#10094;</Link>
         </div>
         <div className="pagination-dots flex gap-3">
           {/* Ponto 1 - Inativo */}
