@@ -16,16 +16,17 @@ export default function Login() {
 
   return (
     <div className="min-h-screen bg-[#1A202C] text-white flex flex-col items-center">
-      <header className="w-full px-6 md:px-20 py-6">
+      {/* Header - PADRONIZADO */}
+      <header className="w-full flex items-center px-6 md:px-20 py-6">
         <Link to="/" className="flex items-center no-underline text-white">
           <img src="/LOGONEURO.png" alt="NeuroPlanner Logo" className="w-12 mr-3" />
-          <h1 className="text-2xl md:text-3xl font-bold">
+          <h1 className="text-2xl md:text-4xl font-bold">
             <span className="text-[#30BBDE]">Neuro</span>Planner
           </h1>
         </Link>
       </header>
 
-  <main className="grow w-full flex items-center justify-center px-4">
+      <main className="grow w-full flex items-center justify-center px-4">
         <div className="w-full max-w-md p-8 rounded-lg text-center">
           <img src="/LOGONEURO.png" alt="NeuroPlanner" className="w-28 mx-auto mb-4" />
           <div className="text-3xl md:text-4xl font-semibold mb-8">
@@ -53,13 +54,13 @@ export default function Login() {
               className="w-full px-4 py-3 rounded-lg bg-[#202D40] text-white placeholder-[#A0AEC0] focus:outline-none focus:ring-2 focus:ring-[#30BBDE]"
             />
 
-            <div className="flex items-center justify-between text-sm text-[#A0AEC0]">
-              <label className="flex items-center gap-2">
+            <div className=" flex items-center justify-between text-sm text-[#A0AEC0]">
+              <label className=" flex items-center gap-2">
                 <input
                   type="checkbox"
                   checked={remember}
                   onChange={(e) => setRemember(e.target.checked)}
-                  className="w-4 h-4 accent-[#27a1c0]"
+                  className="cursor-pointer w-4 h-4 accent-[#27a1c0]"
                 />
                 Lembrar
               </label>

@@ -1,27 +1,23 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-export default function SobreNos() {
+export default function Home() {
   return (
     <div className="flex flex-col min-h-screen bg-[#1A202C] text-white font-sans">
-      {/* Header */}
-      <header className="flex items-center px-6 md:px-20 py-5 mb-10">
-        <Link to="/" className="flex items-center text-white no-underline">
-          <img
-            src="/LOGONEURO.png"
-            alt="NeuroPlanner Logo"
-            className="mt-5 w-12 mr-2.5"
-          />
-          <h1 className="text-2xl md:text-4xl font-bold pt-1 md:pt-4">
-            <span className="text-[#30BBDE]">Neuro</span>Planner
-          </h1>
-        </Link>
-      </header>
+      {/* Header - PADRONIZADO */}
+      <header className="w-full flex items-center px-6 md:px-20 py-6">
+              <Link to="/" className="flex items-center no-underline text-white">
+                <img src="/LOGONEURO.png" alt="NeuroPlanner Logo" className="w-12 mr-3" />
+                <h1 className="text-2xl md:text-4xl font-bold">
+                  <span className="text-[#30BBDE]">Neuro</span>Planner
+                </h1>
+              </Link>
+            </header>
 
       {/* Main Content */}
       <main className="grow flex items-center justify-around px-50 gap-12 flex-wrap">
         {/* Left Content */}
-        <div className="max-w-[850px] text-left mb-12">
+        <div className="max-w-[750px] text-left mb-12">
           <div className="ml-4">
             <h1 className="text-6xl mb-5 font-semibold">
               Planeje sua rotina de estudos com <br />

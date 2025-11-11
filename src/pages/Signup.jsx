@@ -18,10 +18,11 @@ export default function Signup() {
 
   return (
     <div className="min-h-screen bg-[#1A202C] text-white flex flex-col items-center">
-      <header className="w-full px-6 md:px-20 py-6">
+      {/* Header - PADRONIZADO */}
+      <header className="w-full flex items-center px-6 md:px-20 py-6">
         <Link to="/" className="flex items-center no-underline text-white">
           <img src="/LOGONEURO.png" alt="NeuroPlanner Logo" className="w-12 mr-3" />
-          <h1 className="text-2xl md:text-3xl font-bold">
+          <h1 className="text-2xl md:text-4xl font-bold">
             <span className="text-[#30BBDE]">Neuro</span>Planner
           </h1>
         </Link>
@@ -75,7 +76,7 @@ export default function Signup() {
                 id="terms"
                 checked={terms}
                 onChange={(e) => setTerms(e.target.checked)}
-                className="w-4 h-4 accent-[#30BBDE]"
+                className="cursor-pointer w-4 h-4 accent-[#30BBDE]"
                 required
               />
               <label htmlFor="terms">
