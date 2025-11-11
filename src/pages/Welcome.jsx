@@ -7,11 +7,11 @@ export default function Welcome() {
   <div className="absolute inset-0 w-full h-full bg-cover bg-center z-0" style={{backgroundImage: "url('/fundodesktop1.png')"}} />
       <div className="absolute inset-0 w-full h-full bg-opacity-40 z-10" />
       <div className="relative z-20 w-full h-full flex flex-col justify-between items-center">
-        <Link to="/sobre" className="mt-7 ml-7 text-white text-base font-medium self-start">Voltar</Link>
+        <Link to="/" className="mt-7 ml-7 text-white text-base font-medium self-start">Voltar</Link>
         <div className="flex-1 flex flex-col justify-center items-center">
           <div className="text-white text-4xl md:text-6xl font-light mb-2">Bem-vindo ao</div>
           <div className="text-3xl md:text-5xl font-bold app-title">
-            <Link to="/sobre" className="no-underline text-white">
+            <Link to="/" className="no-underline text-white">
               <span className="text-[#30BBDE]">Neuro</span>Planner
             </Link>
           </div>

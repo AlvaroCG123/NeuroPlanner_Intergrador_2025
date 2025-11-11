@@ -85,7 +85,7 @@ export default function Signup() {
             </div>
             <button
               type="submit"
-              className="mt-6 w-full py-3 rounded-lg bg-[#2A5265] text-white font-semibold hover:bg-[#234453] transform hover:-translate-y-0.5 transition"
+              className=" cursor-pointer mt-6 w-full py-3 rounded-lg bg-[#2A5265] text-white font-semibold hover:bg-[#234453] transform hover:-translate-y-0.5 transition"
               disabled={!terms}
             >
               Cadastre-se

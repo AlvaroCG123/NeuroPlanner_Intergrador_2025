@@ -2,7 +2,6 @@ import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import './index.css';
 
-// Importa o novo componente Home (conteúdo da sua "Sobre Nós")
 import Home from './pages/Home'; 
 import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';

@@ -37,9 +37,7 @@ export default function Formulario() {
           {/* Ponto 3 - Ativo */}
           <span className="dot w-2.5 h-2.5 rounded-full bg-[#63B3ED] opacity-100" />
         </div>
-        <div className="nav-arrow right-arrow text-3xl text-white">
-          {/* Link para o painel principal após a conclusão do onboarding */}
-          <Link to="/dashboard">&#10095;</Link>
+        <div className="nav-arrow right-arrow text-3xl text-white opacity-0">
         </div>
       </footer>
     </div>
