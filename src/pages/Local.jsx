@@ -45,7 +45,7 @@ export default function Local() {
           <span className="dot w-2.5 h-2.5 rounded-full bg-[#A0AEC0] opacity-50" />
         </div>
         <div className="nav-arrow right-arrow text-3xl text-white">
-          <Link to="/plano">&#10095;</Link>
+          <Link to="/formulario">&#10095;</Link>
         </div>
       </footer>
     </div>

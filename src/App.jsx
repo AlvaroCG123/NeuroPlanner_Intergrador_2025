@@ -8,6 +8,7 @@ import Welcome from './pages/Welcome';
 import Help from './pages/Help';
 import Local from './pages/Local';
 import Plano from './pages/Plano';
+import Formulario from './pages/Formulario';
 
 function App() {
   const [isActivityModalOpen, setIsActivityModalOpen] = useState(false);
@@ -136,6 +137,7 @@ function App() {
   <Route path="/help" element={<Help />} />
   <Route path="/local" element={<Local />} />
   <Route path="/plano" element={<Plano />} />
+  <Route path="/formulario" element={<Formulario />} />
       <Route path="/" element={
     <>
       {/* --- MODAIS --- */}
