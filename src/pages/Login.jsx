@@ -66,13 +66,14 @@ export default function Login() {
               </label>
               <Link to="/forgot" className="text-[#33C6EB] hover:text-[#27a1c0]">Esqueceu a senha?</Link>
             </div>
-
-            <button
-              type="submit"
-              className="mt-4 w-full py-3 rounded-lg bg-[#2A5265] text-white font-semibold hover:bg-[#254657] transform hover:-translate-y-0.5 transition"
-            >
-              Entrar
-            </button>
+            <Link to="/dashboard">
+              <button
+                type="submit"
+                className="mt-4 w-full py-3 rounded-lg bg-[#2A5265] text-white font-semibold hover:bg-[#254657] transform hover:-translate-y-0.5 transition"
+              >
+                Entrar
+              </button>
+            </Link>
           </form>
 
           <div className="mt-6 text-sm text-[#A0AEC0]">

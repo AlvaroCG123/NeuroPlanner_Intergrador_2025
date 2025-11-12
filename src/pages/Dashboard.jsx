@@ -1,9 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-// Importe os componentes de modal ou mova a lógica dos modais para cá se forem específicos deste dashboard
-// ... (Seus imports de componentes e CSS, se houver)
-
-// Componentes modais (se forem reusáveis, você os importaria)
-// Por enquanto, os modais de atividade e nota estão dentro deste componente.
+import { Link } from 'react-router-dom';
 
 function Dashboard() {
   const [isActivityModalOpen, setIsActivityModalOpen] = useState(false);
@@ -115,10 +111,8 @@ function Dashboard() {
     setNotes(prev => prev.map(n => n.id === id ? { ...n, completed: !n.completed } : n));
   };
   
-  // Retorna o JSX completo do Dashboard, incluindo os modais e o layout principal
   return (
     <>
-      {/* --- MODAIS --- (Copie o código dos modais de atividade e nota aqui) */}
       <div id="activity-modal" 
            className={`fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center z-50 ${isActivityModalOpen ? '' : 'hidden'}`}
       >
@@ -163,7 +157,6 @@ function Dashboard() {
           </div>
         </div>
       </div>
-      {/* FIM MODAIS */}
 
       {/* ================================================================
         LAYOUT PRINCIPAL - ESTRUTURA FINAL E ESTÁTICA
@@ -175,7 +168,7 @@ function Dashboard() {
         <aside
           className="fixed left-0 top-0 h-screen text-white flex flex-col py-3 px-3 z-20 bg-[#253658] w-52 overflow-x-hidden" 
         >
-            {/* LOGO */}
+
             <div className="flex items-center w-full justify-start pl-2 pt-4 mb-7"> 
             <div className="w-11 h-11 bg-[#4f77f1] rounded-full flex items-center justify-center shrink-0">
               <img src="/logo.png" alt="Logo" className="w-10 h-9" />
@@ -183,28 +176,30 @@ function Dashboard() {
               <h3 className="text-base ml-2 opacity-100">Rotinas</h3>
             </div>
 
-            {/* BOTÃO + ADICIONAR (Altura e Cor de Fundo Corrigidas) */}
             <button onClick={() => setIsActivityModalOpen(true)} className="w-full h-13 bg-[#374D77] text-[#30BBDE] border-none rounded-md text-left mb-7 cursor-pointer text-base font-semibold px-2 flex items-center hover:bg-[#3f66d4]">
               <span className="text-lg mr-2">+</span> Adicionar
             </button>
 
-            {/* ITENS DO MENU - Fonte Aumentada (text-base) e Gap Visual Aumentado (mb-2) */}
             {[
-                { icon: "/pessoa.png", alt: "Pessoa", text: "Perfil" },
-                { icon: "/calendario.png", alt: "Calendário", text: "Calendário" },
-                { icon: "/alvo.png", alt: "Alvo", text: "Criador de Rotinas" },
-                { icon: "/camera.png", alt: "Câmera", text: "Biblioteca de Recursos" },
-                { icon: "/pessoaConfig.png", alt: "Configuração", text: "Configurações" },
-                { icon: "/seta.png", alt: "Seta", text: "Diretório de Suporte" }
+                { icon: "/pessoa.png", alt: "Pessoa", text: "Perfil", path: "/perfil" },
+                { icon: "/calendario.png", alt: "Calendário", text: "Calendário", path: "/calendario" },
+                { icon: "/alvo.png", alt: "Alvo", text: "Criador de Rotinas", path: "/rotinas" },
+                { icon: "/camera.png", alt: "Câmera", text: "Biblioteca de Recursos", path: "/biblioteca" },
+                { icon: "/pessoaConfig.png", alt: "Configuração", text: "Configurações", path: "/configuracoes" },
+                { icon: "/seta.png", alt: "Seta", text: "Diretório de Suporte", path: "/" }
             ].map((item) => (
-                <div key={item.text} className="mt-2 flex items-center p-2 rounded-md h-[45px] cursor-pointer text-white text-base mb-2 hover:bg-[#2c406d]"> 
+                <Link 
+                    key={item.text} 
+                    to={item.path} 
+                    className="mt-2 flex items-center p-2 rounded-md h-[45px] cursor-pointer text-white text-base mb-2 hover:bg-[#2c406d] transition duration-150 ease-in-out" // Adicionado transition para melhor UX
+                > 
                     <div className="flex items-center justify-center shrink-0 mr-3">
                         <img src={item.icon} alt={item.alt} className="w-7 h-7" />
                     </div>
                     <h4 className="text-base font-normal opacity-100">
                         {item.text}
                     </h4>
-                </div>
+                </Link>
             ))}
         </aside>
 
