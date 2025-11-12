@@ -9,7 +9,7 @@ export default function Rotinas() {
   return (
     <div className="min-h-screen bg-[#182132] text-white font-[Inter] antialiased">
       <header className="pt-5 flex justify-between items-center px-8 py-4">
-        <Link to="/" className="flex items-center no-underline text-white">
+        <Link to="/dashboard" className="flex items-center no-underline text-white">
                   <img src="/LOGONEURO.png" alt="NeuroPlanner Logo" className="w-12 mr-3" />
                   <h1 className="text-2xl md:text-3xl font-bold">
                     <span className="text-[#30BBDE]">Neuro</span>Planner

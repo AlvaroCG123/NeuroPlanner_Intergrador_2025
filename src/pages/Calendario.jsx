@@ -1,0 +1,231 @@
+import React, { useState, useEffect } from "react";
+import { Link } from 'react-router-dom';
+
+
+export default function Agenda() {
+    // --- Estados da Aplicação ---
+    const [currentDate, setCurrentDate] = useState(new Date());
+    const [selectedDate, setSelectedDate] = useState(null);
+    const [moods, setMoods] = useState({});
+    const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+
+    const emojis = ["😀", "😐", "😢", "😡", "😴", "😇"];
+
+    useEffect(() => {
+        try {
+            const saved = localStorage.getItem("moods");
+            if (saved) {
+                setMoods(JSON.parse(saved));
+            }
+        } catch (error) {
+            console.error("Erro ao carregar do localStorage:", error);
+        }
+    }, []);
+
+    useEffect(() => {
+        try {
+            localStorage.setItem("moods", JSON.stringify(moods));
+        } catch (error) {
+            console.error("Erro ao salvar no localStorage:", error);
+        }
+    }, [moods]);
+
+    const daysOfWeek = ["DOM", "SEG", "TER", "QUA", "QUI", "SEX", "SÁB"];
+
+    const year = currentDate.getFullYear();
+    const month = currentDate.getMonth();
+    const firstDayOfMonth = new Date(year, month, 1);
+    const lastDayOfMonth = new Date(year, month + 1, 0);
+
+    const totalDays = lastDayOfMonth.getDate();
+    const startDay = firstDayOfMonth.getDay();
+
+    const days = [];
+    for (let i = 0; i < startDay; i++) {
+        days.push(null);
+    }
+    for (let i = 1; i <= totalDays; i++) {
+        days.push(i);
+    }
+
+    const handlePrevMonth = () => {
+        setCurrentDate(new Date(year, month - 1));
+    };
+
+    const handleNextMonth = () => {
+        setCurrentDate(new Date(year, month + 1));
+    };
+
+    const handleDayClick = (day) => {
+        if (!day) return;
+        setSelectedDate(new Date(year, month, day));
+        setShowEmojiPicker(true);
+    };
+
+    const handleSelectEmoji = (emoji) => {
+        if (!selectedDate) return;
+
+        const key = selectedDate.toDateString();
+        setMoods((prev) => ({
+            ...prev,
+            [key]: emoji,
+        }));
+        
+        setShowEmojiPicker(false);
+        setSelectedDate(null);
+    };
+
+    const getEmojiForDay = (day) => {
+        const key = new Date(year, month, day).toDateString();
+        return moods[key];
+    };
+    
+    // Verifica se o dia é hoje
+    const isTodayFn = (day) => {
+        const today = new Date();
+        return (
+            day &&
+            today.getDate() === day &&
+            today.getMonth() === month &&
+            today.getFullYear() === year
+        );
+    }
+
+
+    return (
+        <div className="min-h-screen bg-[#182132] text-white font-sans flex flex-col items-center px-4 sm:px-6">            
+            <header className="pt-5 flex justify-between items-center px-8 py-4 w-full">
+                <Link to="/dashboard" className="flex items-center no-underline text-white">
+                    <img 
+                        src="LOGONEURO.png" 
+                        alt="NeuroPlanner Logo" 
+                        className="w-12 mr-3 rounded" 
+                    />
+                    <h1 className="text-2xl md:text-3xl font-bold">
+                        <span className="text-[#30BBDE]">Neuro</span>Planner
+                    </h1>
+                </Link>
+                <div className="button">
+                    <button className="bg-transparent border-none">
+                         {/* Substituído CustomLink por Link */}
+                        <Link to="/dashboard" className="text-white text-xl md:text-2xl no-underline hover:text-[#30BBDE] transition-colors font-semibold">
+                            Voltar
+                        </Link>
+                    </button>
+                </div>
+            </header>
+
+            {/* Conteúdo principal com padding top ajustado */}
+            <div className="flex flex-col items-center w-full pt-10">
+
+                {/* Cabeçalho do Calendário */}
+                <div className="w-full flex justify-between max-w-5xl mb-6 mt-4">
+                    <button
+                        onClick={handlePrevMonth}
+                        className="p-3 text-white rounded-full transition-colors hover:bg-[#1B2A47] active:scale-95 text-3xl"
+                        aria-label="Mês Anterior"
+                    >
+                        &lt;
+                    </button>
+                    <h2 className="text-3xl font-bold text-white tracking-wider flex items-center capitalize">
+                        {/* Formato: "Novembro 2025" */}
+                        {currentDate.toLocaleDateString("pt-BR", { month: "long", year: "numeric" })}
+                    </h2>
+                    <button
+                        onClick={handleNextMonth}
+                        className="p-3 text-white rounded-full transition-colors hover:bg-[#1B2A47] active:scale-95 text-3xl"
+                        aria-label="Próximo Mês"
+                    >
+                        &gt;
+                    </button>
+                </div>
+
+                {/* Grid do Calendário (Layout Aprimorado) */}
+                <div className="w-full max-w-5xl shadow-2xl bg-[#1B2A47] rounded-3xl overflow-hidden p-4 sm:p-6 mb-10">
+                    
+                    {/* Cabeçalhos dos Dias da Semana */}
+                    <div className="grid grid-cols-7 gap-1 sm:gap-4 mb-3 sm:mb-4 border-b border-[#30BBDE]/30 pb-3">
+                        {daysOfWeek.map((day) => (
+                            <div key={day} className="text-[#30BBDE] text-sm sm:text-lg font-extrabold text-center uppercase">
+                                {day}
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* Células dos Dias do Mês */}
+                    <div className="grid grid-cols-7 gap-1 sm:gap-4">
+                        {days.map((day, idx) => {
+                            const emoji = day ? getEmojiForDay(day) : null;
+                            const dateKey = day ? new Date(year, month, day).toDateString() : null;
+                            const isSelected = selectedDate && dateKey === selectedDate.toDateString();
+                            const isToday = isTodayFn(day);
+                            
+                            return (
+                                <div
+                                    key={idx}
+                                    onClick={() => handleDayClick(day)}
+                                    className={`
+                                        group h-20 sm:h-28 md:h-32 p-1 sm:p-2 flex flex-col items-start justify-between rounded-xl transition-all relative
+                                        ${
+                                            day
+                                                ? "bg-[#24395B] hover:bg-[#30BBDE]/30 cursor-pointer shadow-md"
+                                                : "bg-transparent cursor-default"
+                                        }
+                                        ${isSelected ? "ring-2 ring-offset-2 ring-offset-[#1B2A47] ring-[#30BBDE] shadow-lg shadow-[#30BBDE]/20" : ""}
+                                        ${isToday && day ? "border-2 border-dashed border-white/50" : ""} 
+                                    `}
+                                >
+                                    {day && (
+                                        <>
+                                            {/* Número do dia */}
+                                            <span className={`text-sm sm:text-base font-bold transition-colors ${emoji ? 'text-gray-300 group-hover:text-white' : 'text-white'}`}>
+                                                {day}
+                                            </span>
+                                            {/* Emoji posicionado no canto inferior direito */}
+                                            <span className="text-2xl sm:text-4xl absolute bottom-1 right-1 sm:bottom-2 sm:right-2 transform transition-transform group-hover:scale-110">
+                                                {emoji}
+                                            </span>
+                                        </>
+                                    )}
+                                </div>
+                            );
+                        })}
+                    </div>
+                </div>
+            </div>
+
+            {/* Modal de Seleção de Emoji */}
+            {showEmojiPicker && selectedDate && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70 backdrop-blur-sm p-4">
+                    <div className="bg-[#1B2A47] p-8 rounded-3xl shadow-2xl flex flex-col items-center space-y-6 max-w-md w-full border border-[#30BBDE]/50">
+                        <h3 className="text-xl font-semibold text-white text-center">
+                            Como você se sentiu em <br />
+                            <span className="text-[#30BBDE] font-mono block mt-1">
+                                {selectedDate.toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
+                            </span>
+                            ?
+                        </h3>
+                        <div className="flex flex-wrap justify-center gap-4">
+                            {emojis.map((emoji) => (
+                                <button
+                                    key={emoji}
+                                    onClick={() => handleSelectEmoji(emoji)}
+                                    className="text-4xl p-2 rounded-full hover:bg-[#30BBDE]/20 transition-all transform hover:scale-125 active:scale-90"
+                                    aria-label={`Selecionar humor ${emoji}`}
+                                >
+                                    {emoji}
+                                </button>
+                            ))}
+                        </div>
+                        <button
+                            onClick={() => setShowEmojiPicker(false)}
+                            className="mt-4 px-4 py-2 text-sm font-medium text-gray-300 bg-[#24395B] rounded-full hover:bg-[#30BBDE] hover:text-[#182132] transition-colors"
+                        >
+                            Cancelar
+                        </button>
+                    </div>
+                </div>
+            )}
+        </div>
+    );
+}
