@@ -4,55 +4,87 @@ import { Link } from "react-router-dom";
 
 export default function Biblioteca() {
   const [pais, setPais] = useState("Brasil");
-  const [estado, setEstado] = useState("Rio Grande do Sul");
+  const [estado, setEstado] = useState("");
 
-  const paises = ["Brasil", "Argentina", "Estados Unidos", "Portugal"];
-  const estados = [
-    "Rio Grande do Sul",
-    "Santa Catarina",
-    "Paraná",
-    "São Paulo",
-    "Rio de Janeiro",
-  ];
+  // PAISES E ESTADOS DINÂMICOS
+  const regioes = {
+    Brasil: [
+      "Rio Grande do Sul",
+      "Santa Catarina",
+      "Paraná",
+      "São Paulo",
+      "Rio de Janeiro",
+      "Minas Gerais",
+      "Bahia",
+      "Pernambuco",
+      "Ceará",
+    ],
+    Argentina: [
+      "Buenos Aires",
+      "Córdoba",
+      "Santa Fe",
+      "Mendoza",
+      "Salta",
+      "Tucumán",
+    ],
+    "Estados Unidos": [
+      "Califórnia",
+      "Nova York",
+      "Texas",
+      "Flórida",
+      "Illinois",
+      "Washington",
+    ],
+    Portugal: [
+      "Lisboa",
+      "Porto",
+      "Coimbra",
+      "Braga",
+      "Faro",
+    ],
+    Espanha: [
+      "Madrid",
+      "Barcelona",
+      "Valência",
+      "Sevilha",
+      "Málaga",
+    ],
+    Canadá: [
+      "Ontário",
+      "Quebec",
+      "Colúmbia Britânica",
+      "Alberta",
+      "Manitoba",
+    ],
+    Japão: [
+      "Tóquio",
+      "Osaka",
+      "Kyoto",
+      "Hokkaido",
+      "Fukuoka",
+    ],
+  };
+
+  // Atualizar o estado quando mudar o país
+  const handlePaisChange = (e) => {
+    const novoPais = e.target.value;
+    setPais(novoPais);
+    setEstado(""); // limpa o estado quando o país muda
+  };
 
   // Recomendados - com imagens e links diferentes
   const recomendacoes = [
-    {
-      id: 1,
-      nome: "Guia de Estudos",
-      imagem: "image1.png",
-      link: "/guia",
-    },
-    {
-      id: 2,
-      nome: "Vídeo Aula",
-      imagem: "image2.png",
-      link: "/videos",
-    },
-    {
-      id: 3,
-      nome: "Artigos Técnicos",
-      imagem: "image3.png",
-      link: "/artigos",
-    },
-    {
-      id: 4,
-      nome: "Dicas de Inglês",
-      imagem: "image4.png",
-      link: "/idioma",
-    },
-    {
-      id: 5,
-      nome: "Ferramentas Úteis",
-      imagem: "image5.png",
-      link: "/ferramentas",
-    },
+    { id: 1, nome: "Guia de Estudos", imagem: "image1.png", link: "/guia" },
+    { id: 2, nome: "Vídeo Aula", imagem: "image2.png", link: "/videos" },
+    { id: 3, nome: "Artigos Técnicos", imagem: "image3.png", link: "/artigos" },
+    { id: 4, nome: "Cultura", imagem: "image4.png", link: "/idioma" },
+    { id: 5, nome: "Ferramentas Úteis", imagem: "image5.png", link: "/ferramentas" },
   ];
 
   return (
     <div className="min-h-screen bg-[#182132] text-white font-inter">
       {/* HEADER */}
-      <header className="w-full py-6 px-6 flex items-center justify-between bg-[#202A3D]">
+      <header className="relative w-full py-6 px-6 flex items-center justify-between bg-[#202A3D]">
         {/* Pesquisa */}
         <div className="flex items-center space-x-3">
           <div className="flex items-center h-9 px-3 rounded-full bg-[#2E3F5E]">
@@ -65,8 +97,10 @@ export default function Biblioteca() {
           <Search className="w-7 h-7 text-gray-400 cursor-pointer" />
         </div>
 
-        {/* Título */}
-        <h1 className="text-4xl font-semibold">Biblioteca de Recursos</h1>
+        {/* Título centralizado */}
+        <h1 className="absolute left-1/2 transform -translate-x-1/2 text-4xl font-semibold">
+          Biblioteca de Recursos
+        </h1>
 
         {/* Voltar */}
         <Link
@@ -82,7 +116,7 @@ export default function Biblioteca() {
         {/* COLUNA ESQUERDA */}
         <div className="flex flex-col gap-8 w-full max-w-sm">
           {/* ARTIGOS */}
-          <div className="relative rounded-2xl overflow-hidden h-56 shadow-lg bg-[#202A3D] hover:scale-105 transition">
+          <div className="cursor-pointer relative rounded-2xl overflow-hidden h-56 shadow-lg bg-[#202A3D] hover:scale-105 transition">
             <img
               src="Artigos.png"
               alt="Artigos"
@@ -94,7 +128,7 @@ export default function Biblioteca() {
           </div>
 
           {/* VÍDEOS */}
-          <div className="relative rounded-2xl overflow-hidden h-56 shadow-lg bg-[#202A3D] hover:scale-105 transition">
+          <div className="cursor-pointer relative rounded-2xl overflow-hidden h-56 shadow-lg bg-[#202A3D] hover:scale-105 transition">
             <img
               src="Videos.png"
               alt="Vídeos"
@@ -109,7 +143,7 @@ export default function Biblioteca() {
         {/* CENTRO */}
         <div className="flex flex-col justify-between gap-8 w-full max-w-2xl">
           {/* DICAS E IDIOMA */}
-          <div className="relative h-[430px] rounded-2xl overflow-hidden shadow-lg flex items-start justify-start p-10 bg-[#202A3D] hover:scale-105 transition">
+          <div className="cursor-pointer relative h-[430px] rounded-2xl overflow-hidden shadow-lg flex items-start justify-start p-10 bg-[#202A3D] hover:scale-105 transition">
             <img
               src="Dicas.png"
               alt="Dicas e Idioma"
@@ -132,10 +166,10 @@ export default function Biblioteca() {
               <div className="relative inline-block">
                 <select
                   value={pais}
-                  onChange={(e) => setPais(e.target.value)}
+                  onChange={handlePaisChange}
                   className="appearance-none h-9 px-4 pr-8 rounded-full text-sm text-gray-300 bg-[#202D40] outline-none cursor-pointer w-80 hover:bg-[#2E3F5E] transition"
                 >
-                  {paises.map((p) => (
+                  {Object.keys(regioes).map((p) => (
                     <option key={p} value={p}>
                       {p}
                     </option>
@@ -145,10 +179,10 @@ export default function Biblioteca() {
               </div>
             </div>
 
-            {/* Estado */}
+            {/* Estado / Cidade */}
             <div>
               <p className="text-2xl uppercase mb-2 font-light">
-                SELECIONE O ESTADO
+                {pais === "Japão" ? "SELECIONE A PREFEITURA" : "SELECIONE O ESTADO"}
               </p>
               <div className="relative inline-block">
                 <select
@@ -156,9 +190,10 @@ export default function Biblioteca() {
                   onChange={(e) => setEstado(e.target.value)}
                   className="appearance-none h-9 px-4 pr-8 rounded-full text-sm text-gray-300 bg-[#202D40] outline-none cursor-pointer w-80 hover:bg-[#2E3F5E] transition"
                 >
-                  {estados.map((e) => (
-                    <option key={e} value={e}>
-                      {e}
+                  <option value="">Selecione...</option>
+                  {regioes[pais].map((reg) => (
+                    <option key={reg} value={reg}>
+                      {reg}
                     </option>
                   ))}
                 </select>

@@ -186,7 +186,7 @@ function Dashboard() {
                 { icon: "/alvo.png", alt: "Alvo", text: "Criador de Rotinas", path: "/rotinas" },
                 { icon: "/camera.png", alt: "Câmera", text: "Biblioteca de Recursos", path: "/biblioteca" },
                 { icon: "/pessoaConfig.png", alt: "Configuração", text: "Configurações", path: "/configuracoes" },
-                { icon: "/seta.png", alt: "Seta", text: "Diretório de Suporte", path: "/" }
+                { icon: "/seta.png", alt: "Seta", text: "Diretório de Suporte", path: "/diretorio-suporte" }
             ].map((item) => (
                 <Link 
                     key={item.text} 

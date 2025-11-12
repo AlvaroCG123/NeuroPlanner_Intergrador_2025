@@ -13,6 +13,7 @@ import Plano from './pages/Plano';
 import Formulario from './pages/Formulario';
 import Rotinas from './pages/Rotinas';
 import Biblioteca from './pages/Biblioteca';
+import DiretorioSuporte from './pages/DiretorioSuporte';
 
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
       <Route path="/formulario" element={<Formulario />} />
       <Route path="/rotinas" element={<Rotinas />} />
       <Route path="/biblioteca" element={<Biblioteca />} />
+      <Route path="/diretorio-suporte" element={<DiretorioSuporte />} />
     </Routes>
   )
 }
