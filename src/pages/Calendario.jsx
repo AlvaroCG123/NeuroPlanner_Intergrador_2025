@@ -1,42 +1,78 @@
 import React, { useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
 
-
 export default function Agenda() {
+    
+    // 💡 FUNÇÃO AUXILIAR: Obtém a data inicial (mês/ano) do localStorage
+    const getInitialDate = () => {
+        try {
+            const savedView = localStorage.getItem("calendarView");
+            if (savedView) {
+                const { year, month } = JSON.parse(savedView);
+                return new Date(year, month);
+            }
+        } catch (error) {
+            console.error("Erro ao carregar calendarView do localStorage:", error);
+        }
+        return new Date(); 
+    };
+    
+    // 💡 FUNÇÃO AUXILIAR: Inicialização Lazy dos Moods (CORREÇÃO PRINCIPAL)
+    // Garante que o estado 'moods' carregue do localStorage ANTES da primeira renderização.
+    const getInitialMoods = () => {
+        try {
+            const saved = localStorage.getItem("moods");
+            if (saved) {
+                return JSON.parse(saved);
+            }
+        } catch (error) {
+            console.error("Erro ao carregar moods do localStorage na inicialização:", error);
+        }
+        return {}; // Retorna um objeto vazio se não houver nada salvo
+    };
+    
     // --- Estados da Aplicação ---
-    const [currentDate, setCurrentDate] = useState(new Date());
+    // Inicialização Lazy do estado 'moods'
+    const [moods, setMoods] = useState(getInitialMoods);
+    
+    // Inicialização Lazy do estado 'currentDate'
+    const [currentDate, setCurrentDate] = useState(getInitialDate);
+    
     const [selectedDate, setSelectedDate] = useState(null);
-    const [moods, setMoods] = useState({});
     const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 
     const emojis = ["😀", "😐", "😢", "😡", "😴", "😇"];
 
-    useEffect(() => {
-        try {
-            const saved = localStorage.getItem("moods");
-            if (saved) {
-                setMoods(JSON.parse(saved));
-            }
-        } catch (error) {
-            console.error("Erro ao carregar do localStorage:", error);
-        }
-    }, []);
-
+    // 1️⃣ EFEITO DE SALVAR MOODS (Execute apenas quando 'moods' muda)
+    // Este useEffect é o único necessário para salvar o estado.
     useEffect(() => {
         try {
             localStorage.setItem("moods", JSON.stringify(moods));
         } catch (error) {
-            console.error("Erro ao salvar no localStorage:", error);
+            // Este erro é vital para identificar problemas de Quota (armazenamento cheio)
+            console.error("Erro ao salvar moods no localStorage:", error);
         }
     }, [moods]);
+    
+    // 2️⃣ EFEITO DE SALVAR O MÊS/ANO ATUAL VISUALIZADO
+    useEffect(() => {
+        try {
+            const dateToSave = {
+                year: currentDate.getFullYear(),
+                month: currentDate.getMonth()
+            };
+            localStorage.setItem("calendarView", JSON.stringify(dateToSave));
+        } catch (error) {
+            console.error("Erro ao salvar calendarView no localStorage:", error);
+        }
+    }, [currentDate]);
 
+    // --- Lógica do Calendário (Sem alterações) ---
     const daysOfWeek = ["DOM", "SEG", "TER", "QUA", "QUI", "SEX", "SÁB"];
-
     const year = currentDate.getFullYear();
     const month = currentDate.getMonth();
     const firstDayOfMonth = new Date(year, month, 1);
     const lastDayOfMonth = new Date(year, month + 1, 0);
-
     const totalDays = lastDayOfMonth.getDate();
     const startDay = firstDayOfMonth.getDay();
 
@@ -64,8 +100,7 @@ export default function Agenda() {
 
     const handleSelectEmoji = (emoji) => {
         if (!selectedDate) return;
-
-        const key = selectedDate.toDateString();
+        const key = selectedDate.toDateString(); 
         setMoods((prev) => ({
             ...prev,
             [key]: emoji,
@@ -76,11 +111,10 @@ export default function Agenda() {
     };
 
     const getEmojiForDay = (day) => {
-        const key = new Date(year, month, day).toDateString();
+        const key = new Date(year, month, day).toDateString(); 
         return moods[key];
     };
     
-    // Verifica se o dia é hoje
     const isTodayFn = (day) => {
         const today = new Date();
         return (
@@ -91,9 +125,9 @@ export default function Agenda() {
         );
     }
 
-
+    // --- Renderização do Componente (Sem alterações de estrutura) ---
     return (
-        <div className="min-h-screen bg-[#182132] text-white font-sans flex flex-col items-center px-4 sm:px-6">            
+        <div className="min-h-screen bg-[#182132] text-white font-sans flex flex-col items-center px-4 sm:px-6">            
             <header className="pt-5 flex justify-between items-center px-8 py-4 w-full">
                 <Link to="/dashboard" className="flex items-center no-underline text-white">
                     <img 
@@ -107,7 +141,6 @@ export default function Agenda() {
                 </Link>
                 <div className="button">
                     <button className="bg-transparent border-none">
-                         {/* Substituído CustomLink por Link */}
                         <Link to="/dashboard" className="text-white text-xl md:text-2xl no-underline hover:text-[#30BBDE] transition-colors font-semibold">
                             Voltar
                         </Link>
@@ -115,10 +148,8 @@ export default function Agenda() {
                 </div>
             </header>
 
-            {/* Conteúdo principal com padding top ajustado */}
             <div className="flex flex-col items-center w-full pt-10">
 
-                {/* Cabeçalho do Calendário */}
                 <div className="w-full flex justify-between max-w-5xl mb-6 mt-4">
                     <button
                         onClick={handlePrevMonth}
@@ -128,7 +159,6 @@ export default function Agenda() {
                         &lt;
                     </button>
                     <h2 className="text-3xl font-bold text-white tracking-wider flex items-center capitalize">
-                        {/* Formato: "Novembro 2025" */}
                         {currentDate.toLocaleDateString("pt-BR", { month: "long", year: "numeric" })}
                     </h2>
                     <button
@@ -140,10 +170,8 @@ export default function Agenda() {
                     </button>
                 </div>
 
-                {/* Grid do Calendário (Layout Aprimorado) */}
                 <div className="w-full max-w-5xl shadow-2xl bg-[#1B2A47] rounded-3xl overflow-hidden p-4 sm:p-6 mb-10">
                     
-                    {/* Cabeçalhos dos Dias da Semana */}
                     <div className="grid grid-cols-7 gap-1 sm:gap-4 mb-3 sm:mb-4 border-b border-[#30BBDE]/30 pb-3">
                         {daysOfWeek.map((day) => (
                             <div key={day} className="text-[#30BBDE] text-sm sm:text-lg font-extrabold text-center uppercase">
@@ -152,7 +180,6 @@ export default function Agenda() {
                         ))}
                     </div>
 
-                    {/* Células dos Dias do Mês */}
                     <div className="grid grid-cols-7 gap-1 sm:gap-4">
                         {days.map((day, idx) => {
                             const emoji = day ? getEmojiForDay(day) : null;
@@ -177,11 +204,9 @@ export default function Agenda() {
                                 >
                                     {day && (
                                         <>
-                                            {/* Número do dia */}
                                             <span className={`text-sm sm:text-base font-bold transition-colors ${emoji ? 'text-gray-300 group-hover:text-white' : 'text-white'}`}>
                                                 {day}
                                             </span>
-                                            {/* Emoji posicionado no canto inferior direito */}
                                             <span className="text-2xl sm:text-4xl absolute bottom-1 right-1 sm:bottom-2 sm:right-2 transform transition-transform group-hover:scale-110">
                                                 {emoji}
                                             </span>

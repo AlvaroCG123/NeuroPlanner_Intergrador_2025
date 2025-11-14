@@ -31,7 +31,7 @@ export default function DiretorioSuporte() {
 
         <div className="flex justify-center items-start gap-10">
           {/* CARD 1 */}
-          <div className="bg-[#3E547D] w-[300px] h-[470px] rounded-[30px] cursor-pointer flex flex-col justify-between shadow-lg hover:scale-105 transition-transform duration-300 px-8 py-10">
+          <div className="bg-[#02d5f2] w-[300px] h-[470px] rounded-[30px] cursor-pointer flex flex-col justify-between shadow-lg hover:scale-105 transition-transform duration-300 px-8 py-10">
             <div>
               <h3 className="text-2xl font-light leading-snug mb-15 mt-8 text-left">
                 CENTRO DE APOIO UNIVERSITÁRIO NAS PROXIMIDADES
@@ -49,7 +49,7 @@ export default function DiretorioSuporte() {
           </div>
 
           {/* CARD 2 */}
-          <div className="bg-[#3E547D] w-[300px] h-[470px] rounded-[30px] cursor-pointer flex flex-col justify-between shadow-lg hover:scale-105 transition-transform duration-300 px-8 py-10">
+          <div className="bg-[#ff00be] w-[300px] h-[470px] rounded-[30px] cursor-pointer flex flex-col justify-between shadow-lg hover:scale-105 transition-transform duration-300 px-8 py-10">
             <div>
               <h3 className="text-2xl font-light leading-snug mb-15 mt-8 text-left">
                 CONTATOS DE TERAPEUTA
@@ -63,7 +63,7 @@ export default function DiretorioSuporte() {
           </div>
 
           {/* CARD 3 */}
-          <div className="bg-[#3E547D] w-[300px] h-[470px] rounded-[30px] cursor-pointer flex flex-col justify-between shadow-lg hover:scale-105 transition-transform duration-300 px-8 py-10">
+          <div className="bg-[#d2f74e] w-[300px] h-[470px] rounded-[30px] cursor-pointer flex flex-col justify-between shadow-lg hover:scale-105 transition-transform duration-300 px-8 py-10">
             <div>
               <h3 className="text-2xl font-light leading-snug mb-15 mt-8 text-left">
                 GRUPOS DE APOIO LOCAIS
@@ -75,9 +75,9 @@ export default function DiretorioSuporte() {
           </div>
 
           {/* CARD 4 */}
-          <div className="bg-[#3E547D] w-[300px] h-[470px] rounded-[30px] cursor-pointer flex justify-center items-center text-center shadow-lg hover:scale-105 transition-transform duration-300 px-8 py-10">
+          <div className="bg-[#fee600] w-[300px] h-[470px] rounded-[30px] cursor-pointer flex justify-center items-center text-center shadow-lg hover:scale-105 transition-transform duration-300 px-8 py-10">
             <h3 className="text-4xl font-light leading-snug">
-              SERVIÇOS ESSENCIAIS
+              POST-ITS VIRTUAIS <br /> ♡
             </h3>
           </div>
         </div>
