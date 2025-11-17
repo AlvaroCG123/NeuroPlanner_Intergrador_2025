@@ -17,9 +17,8 @@ export default function Formulario() {
             Isso levará apenas 1 minuto.
           </p>
           <div className="options-container flex flex-col gap-5 items-center w-full">
-            <button class="cursor-pointer text-2xl bg-transparent hover:bg-[#30BBDE] text-[#30BBDE] font-bold hover:text-white py-3 px-15 border border-[#30BBDE] hover:border-transparent rounded-3xl
-          ">
-              Começar
+            <button class="cursor-pointer text-2xl bg-transparent hover:bg-[#30BBDE] text-[#30BBDE] font-bold hover:text-white py-3 px-15 border border-[#30BBDE] hover:border-transparent rounded-3xl ">
+              <Link to="/Formulario1"> Começar</Link>
             </button>
           </div>
         </div>
