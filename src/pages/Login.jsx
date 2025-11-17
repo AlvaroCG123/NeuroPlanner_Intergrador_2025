@@ -9,17 +9,14 @@ export default function Login() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // TODO: substituir por autenticação real
-    // por enquanto apenas navega para a página principal
     navigate('/');
   };
 
   return (
     <div className="min-h-screen bg-[#1A202C] text-white flex flex-col items-center">
-      {/* Header - PADRONIZADO */}
-      <header className="w-full flex items-center px-6 md:px-20 py-6">
+      <header className="w-full flex items-center px-6 md:px-12 py-6">
         <Link to="/" className="flex items-center no-underline text-white">
-          <img src="/LOGONEURO.png" alt="NeuroPlanner Logo" className="w-12 mr-3" />
+          <img src="/LOGONEURO.png" alt="NeuroPlanner Logo" className="w-10 md:w-12 mr-3" />
           <h1 className="text-2xl md:text-4xl font-bold">
             <span className="text-[#30BBDE]">Neuro</span>Planner
           </h1>
@@ -27,10 +24,10 @@ export default function Login() {
       </header>
 
       <main className="grow w-full flex items-center justify-center px-4">
-        <div className="w-full max-w-md p-8 rounded-lg text-center">
-          <img src="/LOGONEURO.png" alt="NeuroPlanner" className="w-28 mx-auto mb-4" />
+        <div className="w-full max-w-sm sm:max-w-md p-8 rounded-lg text-center">
+          <img src="/LOGONEURO.png" alt="NeuroPlanner" className="w-24 md:w-28 mx-auto mb-4" />
           <div className="text-3xl md:text-4xl font-semibold mb-8">
-            <Link to="/sobre" className="no-underline text-white">
+            <Link to="/" className="no-underline text-white">
               <span className="text-[#30BBDE]">Neuro</span>Planner
             </Link>
           </div>
@@ -64,7 +61,7 @@ export default function Login() {
                 />
                 Lembrar
               </label>
-              <Link to="/forgot" className="text-[#33C6EB] hover:text-[#27a1c0]">Esqueceu a senha?</Link>
+              <Link to="/forgot" className="text-[#33C6EB] hover:text-[#27a1c0] text-xs sm:text-sm">Esqueceu a senha?</Link>
             </div>
             <Link to="/dashboard">
               <button
