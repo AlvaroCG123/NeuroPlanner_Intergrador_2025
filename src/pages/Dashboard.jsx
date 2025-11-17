@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+// Removida a importação de Link, pois era a causa do erro de contexto do router.
+// import { Link } from 'react-router-dom';
 
 function Dashboard() {
   const [isActivityModalOpen, setIsActivityModalOpen] = useState(false);
@@ -113,8 +114,9 @@ function Dashboard() {
   
   return (
     <>
+      {/* Modais: responsivos por natureza (w-11/12 max-w-md) */}
       <div id="activity-modal" 
-           className={`fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center z-50 ${isActivityModalOpen ? '' : 'hidden'}`}
+        className={`fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center z-50 ${isActivityModalOpen ? '' : 'hidden'}`}
       >
         <div className="bg-[#2D3B57] p-6 rounded-xl w-11/12 max-w-md text-white flex flex-col space-y-4 shadow-xl">
           <h2 className="text-lg font-bold text-center text-[#30BBDE]">Adicionar Nova Atividade</h2>
@@ -140,7 +142,7 @@ function Dashboard() {
       </div>
 
       <div id="note-modal" 
-           className={`fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center z-50 ${isNoteModalOpen ? '' : 'hidden'}`}
+        className={`fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center z-50 ${isNoteModalOpen ? '' : 'hidden'}`}
       >
         <div className="bg-[#2D3B57] p-6 rounded-xl w-11/12 max-w-md text-white flex flex-col space-y-4 shadow-xl">
           <h2 className="text-lg font-bold text-center text-[#30BBDE]">Adicionar Nova Nota</h2>
@@ -160,124 +162,157 @@ function Dashboard() {
 
       {/* ================================================================
         LAYOUT PRINCIPAL - ESTRUTURA FINAL E ESTÁTICA
+        Ajustes de responsividade (Mobile vs LG/PC)
         ================================================================
       */}
       <div className="min-h-screen w-full bg-[#182132] font-inter">
 
-        {/* 1. SIDEBAR: FIXA E ABERTA (W-52) - Ajustes de Fonte e Gap */}
+        {/* 1. SIDEBAR: Oculta no Mobile, Visível e Fixa no PC. */}
         <aside
-          className="fixed left-0 top-0 h-screen text-white flex flex-col py-3 px-3 z-20 bg-[#253658] w-52 overflow-x-hidden" 
+          // MOBILE: hidden
+          // PC (lg): fixed, flex, w-52
+          className="fixed left-0 top-0 h-screen text-white flex-col py-3 px-3 z-20 bg-[#253658] w-52 overflow-x-hidden hidden lg:flex" 
         >
 
-            <div className="flex items-center w-full justify-start pl-2 pt-4 mb-7"> 
+          <div className="flex items-center w-full justify-start pl-2 pt-4 mb-7"> 
             <div className="w-11 h-11 bg-[#4f77f1] rounded-full flex items-center justify-center shrink-0">
               <img src="/logo.png" alt="Logo" className="w-10 h-9" />
             </div>
-              <h3 className="text-base ml-2 opacity-100">Rotinas</h3>
-            </div>
+            <h3 className="text-base ml-2 opacity-100">Rotinas</h3>
+          </div>
 
-            <button onClick={() => setIsActivityModalOpen(true)} className="w-full h-13 bg-[#374D77] text-[#30BBDE] border-none rounded-md text-left mb-7 cursor-pointer text-base font-semibold px-2 flex items-center hover:bg-[#3f66d4]">
-              <span className="text-lg mr-2">+</span> Adicionar
-            </button>
+          <button onClick={() => setIsActivityModalOpen(true)} className="w-full h-13 bg-[#374D77] text-[#30BBDE] border-none rounded-md text-left mb-7 cursor-pointer text-base font-semibold px-2 flex items-center hover:bg-[#3f66d4]">
+            <span className="text-lg mr-2">+</span> Adicionar
+          </button>
 
-            {[
-                { icon: "/pessoa.png", alt: "Pessoa", text: "Perfil", path: "/perfil" },
-                { icon: "/calendario.png", alt: "Calendário", text: "Calendário", path: "/calendario" },
-                { icon: "/alvo.png", alt: "Alvo", text: "Criador de Rotinas", path: "/rotinas" },
-                { icon: "/camera.png", alt: "Câmera", text: "Biblioteca de Recursos", path: "/biblioteca" },
-                { icon: "/pessoaConfig.png", alt: "Configuração", text: "Configurações", path: "/configuracoes" },
-                { icon: "/seta.png", alt: "Seta", text: "Diretório de Suporte", path: "/diretorio-suporte" }
-            ].map((item) => (
-                <Link 
-                    key={item.text} 
-                    to={item.path} 
-                    className="mt-2 flex items-center p-2 rounded-md h-[45px] cursor-pointer text-white text-base mb-2 hover:bg-[#2c406d] transition duration-150 ease-in-out" // Adicionado transition para melhor UX
-                > 
-                    <div className="flex items-center justify-center shrink-0 mr-3">
-                        <img src={item.icon} alt={item.alt} className="w-7 h-7" />
-                    </div>
-                    <h4 className="text-base font-normal opacity-100">
-                        {item.text}
-                    </h4>
-                </Link>
-            ))}
+          {[
+            { icon: "/pessoa.png", alt: "Pessoa", text: "Perfil", path: "/perfil" },
+            { icon: "/calendario.png", alt: "Calendário", text: "Calendário", path: "/calendario" },
+            { icon: "/alvo.png", alt: "Alvo", text: "Criador de Rotinas", path: "/rotinas" },
+            { icon: "/camera.png", alt: "Câmera", text: "Biblioteca de Recursos", path: "/biblioteca" },
+            { icon: "/pessoaConfig.png", alt: "Configuração", text: "Configurações", path: "/configuracoes" },
+            { icon: "/seta.png", alt: "Seta", text: "Diretório de Suporte", path: "/diretorio-suporte" }
+          ].map((item) => (
+            // Substituído <Link> por <a> para evitar erros de contexto do router
+            <a 
+              key={item.text} 
+              href={item.path} 
+              className="mt-2 flex items-center p-2 rounded-md h-[45px] cursor-pointer text-white text-base mb-2 hover:bg-[#2c406d] transition duration-150 ease-in-out" 
+            > 
+              <div className="flex items-center justify-center shrink-0 mr-3">
+                <img src={item.icon} alt={item.alt} className="w-7 h-7" />
+              </div>
+              <h4 className="text-base font-normal opacity-100">
+                {item.text}
+              </h4>
+            </a>
+          ))}
         </aside>
 
-        {/* 2. CONTEÚDO PRINCIPAL: Marigem esquerda FIXA (ml-52) */}
+        {/* 2. CONTEÚDO PRINCIPAL: Garante que a largura e margem do PC sejam aplicadas *apenas* no desktop. */}
         <div 
-          className="ml-52 min-h-screen flex flex-col"
-          style={{ width: 'calc(100% - 208px)' }} 
+          // MOBILE: ml-0, w-full, flex-col
+          // PC (lg): ml-52 (margem para a sidebar), w-[calc(100%-208px)]
+          className="ml-0 lg:ml-52 min-h-screen flex flex-col w-full lg:w-[calc(100%-208px)]"
         >
           
-            {/* NAV BAR */}
-            <nav className="w-full h-24 bg-[#1B2A47] flex items-center justify-between px-6 pl-40">
-                <h1 className="text-3xl font-bold text-white">
+            {/* NAV BAR: Responsividade em padding, texto e barra de busca */}
+            <nav 
+              // MOBILE: px-4, pl-4
+              // PC (lg): px-6, pl-40
+              className="w-full h-24 bg-[#1B2A47] flex items-center justify-between px-4 lg:px-6 pl-4 lg:pl-40" 
+            > 
+                
+                {/* Logo Principal: Visível no mobile, oculto no PC */}
+                <h1 className="text-xl lg:text-3xl font-bold text-white flex items-center gap-1 lg:gap-2">
+                    {/* Placeholder de Logo Mobile */}
+                    <div className="w-8 h-8 bg-[#4f77f1] rounded-full flex items-center justify-center shrink-0 lg:hidden">
+                       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                           <path d="M12 2L2 22H22L12 2Z" fill="#30BBDE"/>
+                       </svg>
+                    </div>
                     <span className="text-[#30BBDE]">Neuro</span>Planner
                 </h1>
 
-                <ul className="flex list-none items-center space-x-3 mr-10">
+                <ul className="flex list-none items-center space-x-2 mr-0 lg:mr-10">
                     <li className="flex items-center">
-                        <img className="w-4 h-4 mr-1.5" src="/lupa.png" alt="Buscar" />
+                        <img className="w-4 h-4 mr-1 lg:mr-1.5" src="/lupa.png" alt="Buscar" /> 
                         <input 
+                            // Largura da busca ajustada para mobile (w-32) e restaurada para PC (lg:w-[180px])
                             type="text" 
                             placeholder="Pesquise aqui" 
-                            className="w-[180px] h-9 border-none rounded-full bg-[#2E3F5E] text-[#BCBCBC] text-xs italic pl-3 focus:outline-none" 
+                            className="w-32 lg:w-[180px] h-8 lg:h-9 border-none rounded-full bg-[#2E3F5E] text-[#BCBCBC] text-xs italic pl-3 focus:outline-none" 
                         />
                     </li>
                     <li>
-                        <div className="cursor-pointer w-[50px] h-[50px] rounded-full bg-[#D9D9D9] flex items-center justify-center">
-                            <img src="/perfil.png" alt="Perfil" className="w-[46px] h-[46px]" />
+                        <div className="cursor-pointer w-[36px] h-[36px] lg:w-[50px] lg:h-[50px] rounded-full bg-[#D9D9D9] flex items-center justify-center shrink-0"> 
+                            <img src="/perfil.png" alt="Perfil" className="w-[32px] h-[32px] lg:w-[46px] lg:h-[46px]" />
                         </div>
                     </li>
                 </ul>
             </nav>
 
-            {/* MAIN CONTENT */}
+            {/* MAIN CONTENT: Coluna (mobile) vs Linha (PC) */}
             <main className="flex flex-col lg:flex-row grow">
                 
                 {/* SECTION 1 - ATIVIDADES */}
-                <section className="flex-1 p-6 lg:pt-8 pl-40 w-full min-h-[799px]">
-                    <h1 className="text-5xl font-bold text-white">Atividades da Semana</h1>
-                    <h2 className="text-2xl font-bold mt-8 text-white">Hoje</h2>
-                    <h1 className='ml-225 text-white font-bold text-2xl cursor-pointer'>...</h1>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-2 mr-45">
-              {activities.map(activity => (
-              <div key={activity.id} className="w-115 h-64 rounded-2xl bg-[#202B41] flex items-center justify-between p-6 pr-6 gap-4">
-                <div className="flex flex-col">
-                  <div className="w-[340px] bg-[#253450] rounded-lg text-white text-sm p-4 mb-3">
-                    <p className={activity.completed ? 'line-through text-gray-400' : 'text-white'}>{activity.title}</p>
-                  </div>
-                  <div className="w-[340px] h-[120px] bg-[#253450] rounded-lg text-white text-sm p-4 overflow-auto">
-                    <p className={activity.completed ? 'line-through text-gray-400' : 'text-white'}>{activity.description}</p>
-                  </div>
-                </div>
-                <label className="mb-8 relative cursor-pointer">
-                  <input 
-                    type="checkbox" 
-                    checked={activity.completed}
-                    onChange={() => toggleActivityCompletion(activity.id)}
-                    className="hidden peer" 
-                  />
-                  <span className="w-10 h-10 bg-[#3b4b6d] rounded-md inline-block relative cursor-pointer peer-checked:bg-[#4F77F1]"></span>
-                  <span className="absolute left-3.5 top-2 w-3 h-5 border-solid border-white border-b-2 border-r-2 transform rotate-45 opacity-0 peer-checked:opacity-100"></span>
-                </label>
-              </div>
-              ))}
-            </div>
+                <section 
+                  // PADDINGS: p-4/pl-4 para mobile, p-6/pl-40 para PC
+                  className="flex-1 p-4 lg:p-6 lg:pt-8 pl-4 lg:pl-40 w-full min-h-[799px]"
+                >
+                    <h1 className="text-3xl lg:text-5xl font-bold text-white">Atividades da Semana</h1>
+                    <h2 className="text-xl lg:text-2xl font-bold mt-4 lg:mt-8 text-white">Hoje</h2>
+                    <h1 className='ml-225 text-white font-bold text-2xl cursor-pointer hidden lg:block'>...</h1> 
+                    
+                    {/* Grid de Atividades: 1 coluna no mobile, 2 colunas no PC */}
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6 mt-2 mr-0 lg:mr-45"> 
+                      {activities.map(activity => (
+                        <div 
+                          key={activity.id} 
+                          // Larguras de caixa: w-full no mobile, w-115/h-64 no PC
+                          className="w-full h-auto lg:w-115 lg:h-64 rounded-2xl bg-[#202B41] flex items-start lg:items-center justify-between p-4 lg:p-6 gap-3 lg:gap-4"
+                        >
+                            <div className="flex flex-col space-y-2 lg:space-y-3 flex-1 min-w-0">
+                                {/* Largura do bloco de título - full no mobile, w-[340px] no PC */}
+                                <div className="w-full lg:w-[340px] bg-[#253450] rounded-lg text-white text-sm p-3 lg:p-4 mb-0 lg:mb-3"> 
+                                    <p className={activity.completed ? 'line-through text-gray-400' : 'text-white'}>{activity.title}</p>
+                                </div>
+                                {/* Largura e altura do bloco de descrição - h-[80px] no mobile, h-[120px] no PC */}
+                                <div className="w-full lg:w-[340px] h-[80px] lg:h-[120px] bg-[#253450] rounded-lg text-white text-sm p-3 lg:p-4 overflow-auto"> 
+                                    <p className={activity.completed ? 'line-through text-gray-400' : 'text-white'}>{activity.description}</p>
+                                </div>
+                            </div>
+                            <label className="mt-1 lg:mb-8 relative cursor-pointer shrink-0 ml-2"> 
+                                <input 
+                                    type="checkbox" 
+                                    checked={activity.completed}
+                                    onChange={() => toggleActivityCompletion(activity.id)}
+                                    className="hidden peer" 
+                                />
+                                {/* Tamanho do checkbox responsivo */}
+                                <span className="w-8 h-8 lg:w-10 lg:h-10 bg-[#3b4b6d] rounded-md inline-block relative cursor-pointer peer-checked:bg-[#4F77F1]"></span>
+                                <span className="absolute left-2.5 top-1.5 lg:left-3.5 lg:top-2 w-2 h-4 lg:w-3 lg:h-5 border-solid border-white border-b-2 border-r-2 transform rotate-45 opacity-0 peer-checked:opacity-100"></span>
+                            </label>
+                        </div>
+                      ))}
+                    </div>
                 </section>
 
                 {/* SECTION 2 - NOTAS E FOCO */}
-                <section className="flex flex-col items-center justify-around bg-[#182132] h-[799px] w-[400px] p-6 pr-60">
+                <section 
+                  // Margens e larguras ajustadas para Mobile, pr-60 restaurado para PC
+                  className="flex flex-col items-center justify-around bg-[#182132] h-auto lg:h-[799px] w-full lg:w-[400px] p-4 lg:p-6 lg:pr-60 shrink-0"
+                >
                     
                     {/* BLOCO DE NOTAS */}
-                    <div className="w-[450px] h-[350px] rounded-lg bg-[#2D3B57] flex flex-col p-4 text-white justify-between mb-5">
-                        <h2 className="text-2xl font-bold mb-3">Bloco de Notas</h2>
-                        <div className="grow flex flex-col items-start justify-start text-[#A0AABF] text-m space-y-3 overflow-y-auto w-full">
+                    <div className="w-full max-w-sm lg:w-[450px] h-[300px] lg:h-[350px] rounded-lg bg-[#2D3B57] flex flex-col p-4 text-white justify-between my-4 lg:my-0 lg:mb-5">
+                        <h2 className="text-xl lg:text-2xl font-bold mb-3">Bloco de Notas</h2>
+                        <div className="grow flex flex-col items-start justify-start text-[#A0AABF] text-sm space-y-3 overflow-y-auto w-full">
                         
                         {notes.length === 0 ? (
                             <div className="flex items-center gap-2">
-                            <div className="w-5 h-5 border-2 border-[#A0AABF] rounded-md shrink-0"></div>
-                            <p className="text-m">Sem notas por enquanto</p>
+                            <div className="w-4 h-4 lg:w-5 lg:h-5 border-2 border-[#A0AABF] rounded-md shrink-0"></div>
+                            <p className="text-sm">Sem notas por enquanto</p>
                             </div>
                         ) : (
                             notes.map(note => (
@@ -289,31 +324,33 @@ function Dashboard() {
                                     onChange={() => toggleNoteCompletion(note.id)}
                                     className="hidden peer" 
                                 />
-                                <span className="w-5 h-5 border-2 border-[#A0AABF] rounded-md inline-block peer-checked:bg-[#4F77F1] peer-checked:border-[#4F77F1]"></span>
-                                <span className="absolute left-1.5 top-1 w-1.5 h-3 border-solid border-white border-b-2 border-r-2 transform rotate-45 hidden peer-checked:block"></span>
+                                <span className="w-4 h-4 lg:w-5 lg:h-5 border-2 border-[#A0AABF] rounded-md inline-block peer-checked:bg-[#4F77F1] peer-checked:border-[#4F77F1]"></span>
+                                <span className="absolute left-1 top-0.5 lg:left-1.5 lg:top-1 w-1 h-2.5 lg:w-1.5 lg:h-3 border-solid border-white border-b-2 border-r-2 transform rotate-45 hidden peer-checked:block"></span>
                                 </label>
-                                <p className={`grow pr-10 break-all ${note.completed ? 'line-through text-gray-400' : 'text-white'}`}>{note.text}</p>
+                                <p className={`grow pr-8 lg:pr-10 break-all ${note.completed ? 'line-through text-gray-400' : 'text-white'}`}>{note.text}</p>
                                 <button onClick={() => deleteNote(note.id)} className="absolute right-0 top-1/2 transform -translate-y-1/2 p-1 bg-none border-none cursor-pointer opacity-50 hover:opacity-100">
-                                <img src="/lixeira.png" alt="Apagar" className="w-4 h-4 block" />
+                                <img src="/lixeira.png" alt="Apagar" className="w-3 h-3 lg:w-4 lg:h-4 block" />
                                 </button>
                             </div>
                             ))
                         )}
 
                         </div>
-                        <button onClick={() => setIsNoteModalOpen(true)} className="cursor-pointer w-3/5 self-center bg-[#4F77F1] text-white border-none rounded-lg h-8 text-xs font-bold hover:bg-[#3f66d4] mt-3">
+                        <button onClick={() => setIsNoteModalOpen(true)} className="cursor-pointer w-full lg:w-3/5 self-center bg-[#4F77F1] text-white border-none rounded-lg h-8 text-xs font-bold hover:bg-[#3f66d4] mt-3">
                             + add nota
                         </button>
                     </div>
 
                     {/* BLOCO MODO FOCO */}
-                    <div className="w-[450px] h-[350px] rounded-lg bg-[#2D3B57] flex flex-col p-4 text-white justify-between">
-                        <h2 className="text-2xl font-bold mb-3">Modo Foco</h2>
-                        <div className="w-35 h-35 border-2 border-white rounded-full mx-auto flex items-center justify-center text-2xl font-bold mb-2">
+                    <div className="w-full max-w-sm lg:w-[450px] h-[300px] lg:h-[350px] rounded-lg bg-[#2D3B57] flex flex-col p-4 text-white justify-between mb-4 lg:mb-0">
+                        <h2 className="text-xl lg:text-2xl font-bold mb-3">Modo Foco</h2>
+                        {/* Tamanho do círculo e texto responsivo */}
+                        <div className="w-32 h-32 lg:w-35 lg:h-35 border-2 border-white rounded-full mx-auto flex items-center justify-center text-xl lg:text-2xl font-bold mb-2">
                             <p id="timer-display">{formatTime(totalSeconds)}</p>
                         </div>
                         
-                        <div className="flex justify-center gap-2 w-4/5 self-center">
+                        {/* Botões ocupam largura total no mobile */}
+                        <div className="flex justify-center gap-2 w-full lg:w-4/5 self-center">
                             <button 
                                 id="control-timer-btn"
                                 onClick={handleControlTimer}
