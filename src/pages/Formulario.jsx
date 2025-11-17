@@ -22,9 +22,15 @@ export default function Formulario() {
             Isso levará apenas 1 minuto.
           </p>
           <div className="options-container flex flex-col gap-5 items-center w-full">
-            <button className="cursor-pointer text-xl sm:text-2xl bg-transparent hover:bg-[#30BBDE] text-[#30BBDE] font-bold hover:text-white py-3 px-8 sm:px-12 border-2 border-[#30BBDE] hover:border-transparent rounded-full transition duration-300 ease-in-out">
+
+            <div className="options-container flex flex-col gap-5 items-center w-full">
+            <Link
+              to="/Formulario1"
+              className="cursor-pointer text-xl sm:text-2xl bg-transparent hover:bg-[#30BBDE] text-[#30BBDE] font-bold hover:text-white py-3 px-8 sm:px-12 border-2 border-[#30BBDE] hover:border-transparent rounded-full transition duration-300 ease-in-out"
+            >
               Começar
-            </button>
+            </Link>
+          </div>
           </div>
         </div>
       </main>
