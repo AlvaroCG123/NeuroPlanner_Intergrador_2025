@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+// Removida a importação de Link, pois era a causa do erro de contexto do router.
+// import { Link } from 'react-router-dom';
 
 function Dashboard() {
   const [isActivityModalOpen, setIsActivityModalOpen] = useState(false);
@@ -7,6 +8,7 @@ function Dashboard() {
   const [activityTitle, setActivityTitle] = useState('');
   const [activityDescription, setActivityDescription] = useState('');
   const [noteText, setNoteText] = useState('');
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const initialActivities = [
     { id: 1, title: '9h20 - Revisão antes de avaliação', description: 'Anotação: Ativar o modo foco até 10h50. Estudar as matérias: Parasitologia, Imunologia, Microbiologia.', completed: false },
@@ -113,8 +115,9 @@ function Dashboard() {
   
   return (
     <>
+      {/* Modais: responsivos por natureza (w-11/12 max-w-md) */}
       <div id="activity-modal" 
-           className={`fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center z-50 ${isActivityModalOpen ? '' : 'hidden'}`}
+        className={`fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center z-50 ${isActivityModalOpen ? '' : 'hidden'}`}
       >
         <div className="bg-[#2D3B57] p-6 rounded-xl w-11/12 max-w-md text-white flex flex-col space-y-4 shadow-xl">
           <h2 className="text-lg font-bold text-center text-[#30BBDE]">Adicionar Nova Atividade</h2>
@@ -140,7 +143,7 @@ function Dashboard() {
       </div>
 
       <div id="note-modal" 
-           className={`fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center z-50 ${isNoteModalOpen ? '' : 'hidden'}`}
+        className={`fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center z-50 ${isNoteModalOpen ? '' : 'hidden'}`}
       >
         <div className="bg-[#2D3B57] p-6 rounded-xl w-11/12 max-w-md text-white flex flex-col space-y-4 shadow-xl">
           <h2 className="text-lg font-bold text-center text-[#30BBDE]">Adicionar Nova Nota</h2>
@@ -158,180 +161,176 @@ function Dashboard() {
         </div>
       </div>
 
-      {/* ================================================================
-        LAYOUT PRINCIPAL - ESTRUTURA FINAL E ESTÁTICA
-        ================================================================
-      */}
       <div className="min-h-screen w-full bg-[#182132] font-inter">
-
-        {/* 1. SIDEBAR: FIXA E ABERTA (W-52) - Ajustes de Fonte e Gap */}
+        {/* Sidebar */}
         <aside
-          className="fixed left-0 top-0 h-screen text-white flex flex-col py-3 px-3 z-20 bg-[#253658] w-52 overflow-x-hidden" 
+          className={`fixed left-0 top-0 h-screen text-white flex-col py-3 px-3 z-20 bg-[#253658] w-52 overflow-x-hidden ${isSidebarOpen ? 'flex' : 'hidden'} lg:flex`}
         >
-
-            <div className="flex items-center w-full justify-start pl-2 pt-4 mb-7"> 
+          <div className="flex items-center w-full justify-start pl-2 pt-4 mb-7"> 
             <div className="w-11 h-11 bg-[#4f77f1] rounded-full flex items-center justify-center shrink-0">
               <img src="/logo.png" alt="Logo" className="w-10 h-9" />
             </div>
-              <h3 className="text-base ml-2 opacity-100">Rotinas</h3>
-            </div>
+            <h3 className="text-base ml-2 opacity-100">Rotinas</h3>
+          </div>
 
-            <button onClick={() => setIsActivityModalOpen(true)} className="w-full h-13 bg-[#374D77] text-[#30BBDE] border-none rounded-md text-left mb-7 cursor-pointer text-base font-semibold px-2 flex items-center hover:bg-[#3f66d4]">
-              <span className="text-lg mr-2">+</span> Adicionar
-            </button>
+          <button onClick={() => setIsActivityModalOpen(true)} className="w-full h-13 bg-[#374D77] text-[#30BBDE] border-none rounded-md text-left mb-7 cursor-pointer text-base font-semibold px-2 flex items-center hover:bg-[#3f66d4]">
+            <span className="text-lg mr-2">+</span> Adicionar
+          </button>
 
-            {[
-                { icon: "/pessoa.png", alt: "Pessoa", text: "Perfil", path: "/perfil" },
-                { icon: "/calendario.png", alt: "Calendário", text: "Calendário", path: "/calendario" },
-                { icon: "/alvo.png", alt: "Alvo", text: "Criador de Rotinas", path: "/rotinas" },
-                { icon: "/camera.png", alt: "Câmera", text: "Biblioteca de Recursos", path: "/biblioteca" },
-                { icon: "/pessoaConfig.png", alt: "Configuração", text: "Configurações", path: "/configuracoes" },
-                { icon: "/seta.png", alt: "Seta", text: "Diretório de Suporte", path: "/diretorio-suporte" }
-            ].map((item) => (
-                <Link 
-                    key={item.text} 
-                    to={item.path} 
-                    className="mt-2 flex items-center p-2 rounded-md h-[45px] cursor-pointer text-white text-base mb-2 hover:bg-[#2c406d] transition duration-150 ease-in-out" // Adicionado transition para melhor UX
-                > 
-                    <div className="flex items-center justify-center shrink-0 mr-3">
-                        <img src={item.icon} alt={item.alt} className="w-7 h-7" />
-                    </div>
-                    <h4 className="text-base font-normal opacity-100">
-                        {item.text}
-                    </h4>
-                </Link>
-            ))}
+          {[
+            { icon: "/pessoa.png", alt: "Pessoa", text: "Perfil", path: "/perfil" },
+            { icon: "/calendario.png", alt: "Calendário", text: "Calendário", path: "/calendario" },
+            { icon: "/alvo.png", alt: "Alvo", text: "Criador de Rotinas", path: "/rotinas" },
+            { icon: "/camera.png", alt: "Câmera", text: "Biblioteca de Recursos", path: "/biblioteca" },
+            { icon: "/pessoaConfig.png", alt: "Configuração", text: "Configurações", path: "/configuracoes" },
+            { icon: "/seta.png", alt: "Seta", text: "Diretório de Suporte", path: "/diretorio-suporte" }
+          ].map((item) => (
+            
+            <a 
+              key={item.text} 
+              href={item.path} 
+              className="mt-2 flex items-center p-2 rounded-md h-[45px] cursor-pointer text-white text-base mb-2 hover:bg-[#2c406d] transition duration-150 ease-in-out" 
+            > 
+              <div className="flex items-center justify-center shrink-0 mr-3">
+                <img src={item.icon} alt={item.alt} className="w-7 h-7" />
+              </div>
+              <h4 className="text-base font-normal opacity-100">
+                {item.text}
+              </h4>
+            </a>
+          ))}
         </aside>
 
-        {/* 2. CONTEÚDO PRINCIPAL: Marigem esquerda FIXA (ml-52) */}
-        <div 
-          className="ml-52 min-h-screen flex flex-col"
-          style={{ width: 'calc(100% - 208px)' }} 
-        >
-          
-            {/* NAV BAR */}
-            <nav className="w-full h-24 bg-[#1B2A47] flex items-center justify-between px-6 pl-40">
-                <h1 className="text-3xl font-bold text-white">
-                    <span className="text-[#30BBDE]">Neuro</span>Planner
-                </h1>
-
-                <ul className="flex list-none items-center space-x-3 mr-10">
-                    <li className="flex items-center">
-                        <img className="w-4 h-4 mr-1.5" src="/lupa.png" alt="Buscar" />
-                        <input 
-                            type="text" 
-                            placeholder="Pesquise aqui" 
-                            className="w-[180px] h-9 border-none rounded-full bg-[#2E3F5E] text-[#BCBCBC] text-xs italic pl-3 focus:outline-none" 
-                        />
-                    </li>
-                    <li>
-                        <div className="cursor-pointer w-[50px] h-[50px] rounded-full bg-[#D9D9D9] flex items-center justify-center">
-                            <img src="/perfil.png" alt="Perfil" className="w-[46px] h-[46px]" />
-                        </div>
-                    </li>
-                </ul>
-            </nav>
-
-            {/* MAIN CONTENT */}
-            <main className="flex flex-col lg:flex-row grow">
-                
-                {/* SECTION 1 - ATIVIDADES */}
-                <section className="flex-1 p-6 lg:pt-8 pl-40 w-full min-h-[799px]">
-                    <h1 className="text-5xl font-bold text-white">Atividades da Semana</h1>
-                    <h2 className="text-2xl font-bold mt-8 text-white">Hoje</h2>
-                    <h1 className='ml-225 text-white font-bold text-2xl cursor-pointer'>...</h1>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-2 mr-45">
-              {activities.map(activity => (
-              <div key={activity.id} className="w-115 h-64 rounded-2xl bg-[#202B41] flex items-center justify-between p-6 pr-6 gap-4">
-                <div className="flex flex-col">
-                  <div className="w-[340px] bg-[#253450] rounded-lg text-white text-sm p-4 mb-3">
-                    <p className={activity.completed ? 'line-through text-gray-400' : 'text-white'}>{activity.title}</p>
-                  </div>
-                  <div className="w-[340px] h-[120px] bg-[#253450] rounded-lg text-white text-sm p-4 overflow-auto">
-                    <p className={activity.completed ? 'line-through text-gray-400' : 'text-white'}>{activity.description}</p>
-                  </div>
+        {/* Conteúdo principal ao lado do aside no desktop */}
+        <div className="ml-0 lg:ml-52 min-h-screen flex flex-col w-full lg:w-[calc(100%-208px)]">
+          {/* Navbar */}
+          <nav 
+            className="w-full h-24 bg-[#1B2A47] flex items-center justify-between px-4 lg:px-6 pl-4 lg:pl-40" 
+          > 
+            <button
+              className="lg:hidden text-white text-2xl focus:outline-none"
+              onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+            >
+              ☰
+            </button>
+            <h1 className="text-xl lg:text-3xl font-bold text-white flex items-center">
+              <span className="text-[#30BBDE]">Neuro</span>Planner
+            </h1>
+            {/* Menu de pesquisa restaurado */}
+            <ul className="flex list-none items-center space-x-2 mr-0 lg:mr-10">
+              <li className="flex items-center">
+                <img className="w-4 h-4 mr-1 lg:mr-1.5" src="/lupa.png" alt="Buscar" /> 
+                <input 
+                  type="text" 
+                  placeholder="Pesquise aqui" 
+                  className="w-32 lg:w-[180px] h-8 lg:h-9 border-none rounded-full bg-[#2E3F5E] text-[#BCBCBC] text-xs italic pl-3 focus:outline-none" 
+                />
+              </li>
+              <li>
+                <div className="cursor-pointer w-9 h-9 lg:w-[50px] lg:h-[50px] rounded-full bg-[#D9D9D9] flex items-center justify-center shrink-0"> 
+                  <img src="/perfil.png" alt="Perfil" className="w-8 h-8 lg:w-[46px] lg:h-[46px]" />
                 </div>
-                <label className="mb-8 relative cursor-pointer">
-                  <input 
-                    type="checkbox" 
-                    checked={activity.completed}
-                    onChange={() => toggleActivityCompletion(activity.id)}
-                    className="hidden peer" 
-                  />
-                  <span className="w-10 h-10 bg-[#3b4b6d] rounded-md inline-block relative cursor-pointer peer-checked:bg-[#4F77F1]"></span>
-                  <span className="absolute left-3.5 top-2 w-3 h-5 border-solid border-white border-b-2 border-r-2 transform rotate-45 opacity-0 peer-checked:opacity-100"></span>
-                </label>
+              </li>
+            </ul>
+          </nav>
+
+          {/* Main Content */}
+          <main className="flex flex-col lg:flex-row grow">
+            <section 
+              className="flex-1 p-4 lg:p-6 lg:pt-8 pl-4 lg:pl-20 w-full min-h-[799px]"
+            >
+              <h1 className="text-3xl lg:text-5xl font-bold text-white">Atividades da Semana</h1>
+              <h2 className="text-xl lg:text-2xl font-bold mt-4 lg:mt-4 mb-2 lg:mb-4 text-white">Hoje</h2>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-y-4 lg:gap-y-6 gap-x-1 lg:gap-x-1 mt-0"> 
+                {activities.map(activity => (
+                  <div 
+                    key={activity.id} 
+                    className="w-full h-auto lg:w-115 lg:h-64 rounded-2xl bg-[#202B41] flex items-start lg:items-center justify-between p-4 lg:p-6 gap-3 lg:gap-4"
+                  >
+                    <div className="flex flex-col space-y-2 lg:space-y-3 flex-1 min-w-0">
+                      <div className="w-full lg:w-[340px] bg-[#253450] rounded-lg text-white text-sm p-3 lg:p-4 lg:mb-3 md: mb-3"> 
+                        <p className={activity.completed ? 'line-through text-gray-400' : 'text-white'}>{activity.title}</p>
+                      </div>
+                      <div className="w-full lg:w-[340px] h-20 lg:h-[120px] bg-[#253450] rounded-lg text-white text-sm p-3 lg:p-4 overflow-auto"> 
+                        <p className={activity.completed ? 'line-through text-gray-400' : 'text-white'}>{activity.description}</p>
+                      </div>
+                    </div>
+                    <label className="mt-1 lg:mt-0 lg:mb-8 relative cursor-pointer shrink-0 ml-2"> 
+                      <input 
+                        type="checkbox" 
+                        checked={activity.completed}
+                        onChange={() => toggleActivityCompletion(activity.id)}
+                        className="hidden peer" 
+                      />
+                      <span className="w-8 h-8 lg:w-10 lg:h-10 bg-[#3b4b6d] rounded-md inline-block relative cursor-pointer peer-checked:bg-[#4F77F1]"></span>
+                      <span className="absolute left-2.5 top-1 lg:left-3.5 lg:top-0 w-2 h-4 lg:w-3 lg:h-5 border-solid border-white border-b-2 border-r-2 transform rotate-45 opacity-0 peer-checked:opacity-100"></span>
+                    </label>
+                  </div>
+                ))}
               </div>
-              ))}
-            </div>
-                </section>
+            </section>
 
-                {/* SECTION 2 - NOTAS E FOCO */}
-                <section className="flex flex-col items-center justify-around bg-[#182132] h-[799px] w-[400px] p-6 pr-60">
-                    
-                    {/* BLOCO DE NOTAS */}
-                    <div className="w-[450px] h-[350px] rounded-lg bg-[#2D3B57] flex flex-col p-4 text-white justify-between mb-5">
-                        <h2 className="text-2xl font-bold mb-3">Bloco de Notas</h2>
-                        <div className="grow flex flex-col items-start justify-start text-[#A0AABF] text-m space-y-3 overflow-y-auto w-full">
-                        
-                        {notes.length === 0 ? (
-                            <div className="flex items-center gap-2">
-                            <div className="w-5 h-5 border-2 border-[#A0AABF] rounded-md shrink-0"></div>
-                            <p className="text-m">Sem notas por enquanto</p>
-                            </div>
-                        ) : (
-                            notes.map(note => (
-                            <div key={note.id} className="flex items-center gap-4 w-full text-white text-sm relative">
-                                <label className="relative cursor-pointer shrink-0">
-                                <input 
-                                    type="checkbox" 
-                                    checked={note.completed}
-                                    onChange={() => toggleNoteCompletion(note.id)}
-                                    className="hidden peer" 
-                                />
-                                <span className="w-5 h-5 border-2 border-[#A0AABF] rounded-md inline-block peer-checked:bg-[#4F77F1] peer-checked:border-[#4F77F1]"></span>
-                                <span className="absolute left-1.5 top-1 w-1.5 h-3 border-solid border-white border-b-2 border-r-2 transform rotate-45 hidden peer-checked:block"></span>
-                                </label>
-                                <p className={`grow pr-10 break-all ${note.completed ? 'line-through text-gray-400' : 'text-white'}`}>{note.text}</p>
-                                <button onClick={() => deleteNote(note.id)} className="absolute right-0 top-1/2 transform -translate-y-1/2 p-1 bg-none border-none cursor-pointer opacity-50 hover:opacity-100">
-                                <img src="/lixeira.png" alt="Apagar" className="w-4 h-4 block" />
-                                </button>
-                            </div>
-                            ))
-                        )}
-
-                        </div>
-                        <button onClick={() => setIsNoteModalOpen(true)} className="cursor-pointer w-3/5 self-center bg-[#4F77F1] text-white border-none rounded-lg h-8 text-xs font-bold hover:bg-[#3f66d4] mt-3">
-                            + add nota
+            <section 
+              className="flex flex-col items-center justify-around bg-[#182132] h-auto lg:h-[799px] w-full lg:w-[400px] p-4 lg:p-6 lg:pr-60 shrink-0"
+            >
+              <div className="w-full max-w-sm lg:w-[450px] h-[300px] lg:h-[350px] rounded-lg bg-[#2D3B57] flex flex-col p-4 text-white justify-between my-4 lg:my-0 lg:mb-5">
+                <h2 className="text-xl lg:text-2xl font-bold mb-3">Bloco de Notas</h2>
+                <div className="grow flex flex-col items-start justify-start text-[#A0AABF] text-sm space-y-3 overflow-y-auto w-full">
+                  {notes.length === 0 ? (
+                    <div className="flex items-center gap-2">
+                      <div className="w-4 h-4 lg:w-5 lg:h-5 border-2 border-[#A0AABF] rounded-md shrink-0"></div>
+                      <p className="text-sm">Sem notas por enquanto</p>
+                    </div>
+                  ) : (
+                    notes.map(note => (
+                      <div key={note.id} className="flex items-center gap-4 w-full text-white text-sm relative">
+                        <label className="relative cursor-pointer shrink-0">
+                          <input 
+                            type="checkbox" 
+                            checked={note.completed}
+                            onChange={() => toggleNoteCompletion(note.id)}
+                            className="hidden peer" 
+                          />
+                          <span className="w-4 h-4 lg:w-5 lg:h-5 border-2 border-[#A0AABF] rounded-md inline-block peer-checked:bg-[#4F77F1] peer-checked:border-[#4F77F1]"></span>
+                          <span className="absolute left-1 top-0.5 lg:left-1.5 lg:top-1 w-1 h-2.5 lg:w-1.5 lg:h-3 border-solid border-white border-b-2 border-r-2 transform rotate-45 hidden peer-checked:block"></span>
+                        </label>
+                        <p className={`grow pr-8 lg:pr-10 break-all ${note.completed ? 'line-through text-gray-400' : 'text-white'}`}>{note.text}</p>
+                        <button onClick={() => deleteNote(note.id)} className="absolute right-0 top-1/2 transform -translate-y-1/2 p-1 bg-none border-none cursor-pointer opacity-50 hover:opacity-100">
+                          <img src="/lixeira.png" alt="Apagar" className="w-3 h-3 lg:w-4 lg:h-4 block" />
                         </button>
-                    </div>
+                      </div>
+                    ))
+                  )}
+                </div>
+                <button onClick={() => setIsNoteModalOpen(true)} className="cursor-pointer w-full lg:w-3/5 self-center bg-[#4F77F1] text-white border-none rounded-lg h-8 text-xs font-bold hover:bg-[#3f66d4] mt-3">
+                  + add nota
+                </button>
+              </div>
 
-                    {/* BLOCO MODO FOCO */}
-                    <div className="w-[450px] h-[350px] rounded-lg bg-[#2D3B57] flex flex-col p-4 text-white justify-between">
-                        <h2 className="text-2xl font-bold mb-3">Modo Foco</h2>
-                        <div className="w-35 h-35 border-2 border-white rounded-full mx-auto flex items-center justify-center text-2xl font-bold mb-2">
-                            <p id="timer-display">{formatTime(totalSeconds)}</p>
-                        </div>
-                        
-                        <div className="flex justify-center gap-2 w-4/5 self-center">
-                            <button 
-                                id="control-timer-btn"
-                                onClick={handleControlTimer}
-                                className="cursor-pointer w-1/2 bg-[#4F77F1] text-white border-none rounded-lg h-8 text-xs font-bold hover:bg-[#3f66d4] disabled:bg-[#374D77] disabled:opacity-70 disabled:cursor-not-allowed"
-                            >
-                                {timerState === 'running' ? 'Pausar' : (totalSeconds === 0 ? 'Ativar Timer' : 'Iniciar')}
-                            </button>
-                            <button 
-                                id="reset-timer-btn"
-                                onClick={resetTimer}
-                                className="cursor-pointer w-1/2 bg-transparent border-2 border-[#374D77] text-[#A0AABF] rounded-lg h-8 text-xs font-bold hover:bg-[#374D77] hover:text-white"
-                            >
-                                Recomeçar
-                            </button>
-                        </div>
-                    </div>
-                </section>
-            </main>
+              <div className="w-full max-w-sm lg:w-[450px] h-[300px] lg:h-[350px] rounded-lg bg-[#2D3B57] flex flex-col p-4 text-white justify-between mb-4 lg:mb-0">
+                <h2 className="text-xl lg:text-2xl font-bold mb-3">Modo Foco</h2>
+                <div className="w-32 h-32 lg:w-35 lg:h-35 border-2 border-white rounded-full mx-auto flex items-center justify-center text-xl lg:text-2xl font-bold mb-2">
+                  <p id="timer-display">{formatTime(totalSeconds)}</p>
+                </div>
+                <div className="flex justify-center gap-2 w-full lg:w-4/5 self-center">
+                  <button 
+                    id="control-timer-btn"
+                    onClick={handleControlTimer}
+                    className="cursor-pointer w-1/2 bg-[#4F77F1] text-white border-none rounded-lg h-8 text-xs font-bold hover:bg-[#3f66d4] disabled:bg-[#374D77] disabled:opacity-70 disabled:cursor-not-allowed"
+                  >
+                    {timerState === 'running' ? 'Pausar' : (totalSeconds === 0 ? 'Ativar Timer' : 'Iniciar')}
+                  </button>
+                  <button 
+                    id="reset-timer-btn"
+                    onClick={resetTimer}
+                    className="cursor-pointer w-1/2 bg-transparent border-2 border-[#374D77] text-[#A0AABF] rounded-lg h-8 text-xs font-bold hover:bg-[#374D77] hover:text-white"
+                  >
+                    Recomeçar
+                  </button>
+                </div>
+              </div>
+            </section>
+          </main>
         </div>
       </div>
     </>

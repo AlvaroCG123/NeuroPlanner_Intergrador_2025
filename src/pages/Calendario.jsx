@@ -41,7 +41,7 @@ export default function Agenda() {
     const [selectedDate, setSelectedDate] = useState(null);
     const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 
-    const emojis = ["😀", "😐", "😢", "😡", "😴", "😇"];
+    const emojis = ["😀", "😐", "😢", "😡", "😴", "🤒"];
 
     // 1️⃣ EFEITO DE SALVAR MOODS (Execute apenas quando 'moods' muda)
     // Este useEffect é o único necessário para salvar o estado.
