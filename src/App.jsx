@@ -15,6 +15,7 @@ import Rotinas from './pages/Rotinas';
 import Biblioteca from './pages/Biblioteca';
 import DiretorioSuporte from './pages/DiretorioSuporte';
 import Calendario from './pages/Calendario';
+import Perfil from './pages/Perfil';
 
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
       <Route path="/biblioteca" element={<Biblioteca />} />
       <Route path="/diretorio-suporte" element={<DiretorioSuporte />} />
       <Route path="/calendario" element={<Calendario />} />
+      <Route path="/perfil" element={<Perfil />} />
     </Routes>
   )
 }

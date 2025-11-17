@@ -8,10 +8,51 @@ export default function Signup() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [terms, setTerms] = useState(false);
+  const [photo, setPhoto] = useState(null);
+  const [preview, setPreview] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    navigate('/welcome');
+    // Envia os dados para a fake API (json-server)
+    // Normalize email/password to avoid mismatches (trim + lowercase for email)
+    const normalizedEmail = email.trim().toLowerCase();
+    const normalizedPassword = password.trim();
+
+    // Prepare payload
+    const payload = {
+      name: name.trim(),
+      email: normalizedEmail,
+      password: normalizedPassword,
+      // armazenamos apenas a URL do preview local. Em um backend real, você guardaria o path/URL retornado
+      photo: preview || ''
+    };
+
+    fetch('http://localhost:4000/users', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+      headers: { 'Content-Type': 'application/json' }
+    })
+      .then((res) => res.json())
+      .then((user) => {
+        // salvar usuario no localStorage para manter sessão simples
+        localStorage.setItem('user', JSON.stringify(user));
+        navigate('/welcome');
+      })
+      .catch((err) => {
+        console.error('Erro ao criar usuário', err);
+        navigate('/welcome');
+      });
+  };
+
+  const handlePhotoChange = (e) => {
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+    setPhoto(file);
+    const reader = new FileReader();
+    reader.onload = () => {
+      setPreview(reader.result);
+    };
+    reader.readAsDataURL(file);
   };
 
   return (
@@ -35,6 +76,19 @@ export default function Signup() {
           </div>
 
           <form onSubmit={handleSubmit} className="w-full flex flex-col gap-4">
+            <div className="flex flex-col items-center">
+              {preview ? (
+                <img src={preview} alt="preview" className="w-28 h-28 rounded-full object-cover mb-3" />
+              ) : (
+                <div className="w-28 h-28 rounded-full bg-[#202D40] mb-3 flex items-center justify-center text-[#A0AEC0]">Foto</div>
+              )}
+              <label className="cursor-pointer inline-block text-sm text-[#30BBDE] hover:underline">
+                <input type="file" accept="image/*" onChange={handlePhotoChange} className="hidden" />
+                Escolher foto de perfil
+              </label>
+            </div>
+
+            
             <input
               type="text"
               placeholder="Nome Completo"

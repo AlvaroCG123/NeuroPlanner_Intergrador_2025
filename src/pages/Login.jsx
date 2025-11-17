@@ -9,7 +9,30 @@ export default function Login() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    navigate('/');
+    const qEmail = email.trim().toLowerCase();
+    const qPassword = password.trim();
+
+    // Consultar a fake API para autenticar
+    fetch(`http://localhost:4000/users?email=${encodeURIComponent(qEmail)}`)
+      .then((res) => res.json())
+      .then((users) => {
+        if (!users || users.length === 0) {
+          alert('Usuário não encontrado. Verifique o e-mail ou registre-se primeiro.');
+          return;
+        }
+        // json-server retorna array — pegamos o primeiro com o e-mail solicitado
+        const user = users[0];
+        if (user.password && user.password === qPassword) {
+          localStorage.setItem('user', JSON.stringify(user));
+          navigate('/dashboard');
+        } else {
+          alert('Senha inválida. Verifique e tente novamente.');
+        }
+      })
+      .catch((err) => {
+        console.error('Erro ao autenticar', err);
+        alert('Erro ao autenticar');
+      });
   };
 
   return (
@@ -63,14 +86,12 @@ export default function Login() {
               </label>
               <Link to="/forgot" className="text-[#33C6EB] hover:text-[#27a1c0] text-xs sm:text-sm">Esqueceu a senha?</Link>
             </div>
-            <Link to="/dashboard">
-              <button
-                type="submit"
-                className="mt-4 w-full py-3 rounded-lg bg-[#2A5265] text-white font-semibold hover:bg-[#254657] transform hover:-translate-y-0.5 transition"
-              >
-                Entrar
-              </button>
-            </Link>
+            <button
+              type="submit"
+              className="mt-4 w-full py-3 rounded-lg bg-[#2A5265] text-white font-semibold hover:bg-[#254657] transform hover:-translate-y-0.5 transition"
+            >
+              Entrar
+            </button>
           </form>
 
           <div className="mt-6 text-sm text-[#A0AEC0]">

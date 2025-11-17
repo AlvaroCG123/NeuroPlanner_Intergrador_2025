@@ -9,6 +9,7 @@ function Dashboard() {
   const [activityDescription, setActivityDescription] = useState('');
   const [noteText, setNoteText] = useState('');
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [user, setUser] = useState(null);
 
   const initialActivities = [
     { id: 1, title: '9h20 - Revisão antes de avaliação', description: 'Anotação: Ativar o modo foco até 10h50. Estudar as matérias: Parasitologia, Imunologia, Microbiologia.', completed: false },
@@ -36,6 +37,14 @@ function Dashboard() {
   };
 
   useEffect(() => {
+    // load user from localStorage to show name/photo
+    try {
+      const raw = localStorage.getItem('user');
+      if (raw) setUser(JSON.parse(raw));
+    } catch (e) {
+      console.error('Erro ao ler usuário do localStorage', e);
+    }
+
     console.log('timer useEffect - state:', timerState);
     if (timerState === 'running') {
       if (timerIntervalRef.current) clearInterval(timerIntervalRef.current);
@@ -227,8 +236,13 @@ function Dashboard() {
                 />
               </li>
               <li>
-                <div className="cursor-pointer w-9 h-9 lg:w-[50px] lg:h-[50px] rounded-full bg-[#D9D9D9] flex items-center justify-center shrink-0"> 
-                  <img src="/perfil.png" alt="Perfil" className="w-8 h-8 lg:w-[46px] lg:h-[46px]" />
+                <div className="flex items-center gap-3">
+                  {user && user.name ? (
+                    <div className="hidden lg:block text-white text-sm mr-2">{user.name}</div>
+                  ) : null}
+                  <div className="cursor-pointer w-9 h-9 lg:w-[50px] lg:h-[50px] rounded-full bg-[#D9D9D9] flex items-center justify-center shrink-0 overflow-hidden"> 
+                    <img src={user && user.photo ? user.photo : '/perfil.png'} alt="Perfil" className="w-8 h-8 lg:w-[46px] lg:h-[46px] object-cover" />
+                  </div>
                 </div>
               </li>
             </ul>
@@ -241,7 +255,7 @@ function Dashboard() {
             >
               <h1 className="text-3xl lg:text-5xl font-bold text-white">Atividades da Semana</h1>
               <h2 className="text-xl lg:text-2xl font-bold mt-4 lg:mt-4 mb-2 lg:mb-4 text-white">Hoje</h2>
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-y-4 lg:gap-y-6 gap-x-1 lg:gap-x-1 mt-0"> 
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-y-4 lg:gap-y-6 gap-x-2 lg:gap-x-2 mt-0"> 
                 {activities.map(activity => (
                   <div 
                     key={activity.id} 
@@ -255,7 +269,7 @@ function Dashboard() {
                         <p className={activity.completed ? 'line-through text-gray-400' : 'text-white'}>{activity.description}</p>
                       </div>
                     </div>
-                    <label className="mt-1 lg:mt-0 lg:mb-8 relative cursor-pointer shrink-0 ml-2"> 
+                    <label className="mt-1 lg:mb-8 relative cursor-pointer shrink-0 ml-2"> 
                       <input 
                         type="checkbox" 
                         checked={activity.completed}
@@ -263,7 +277,7 @@ function Dashboard() {
                         className="hidden peer" 
                       />
                       <span className="w-8 h-8 lg:w-10 lg:h-10 bg-[#3b4b6d] rounded-md inline-block relative cursor-pointer peer-checked:bg-[#4F77F1]"></span>
-                      <span className="absolute left-2.5 top-1 lg:left-3.5 lg:top-0 w-2 h-4 lg:w-3 lg:h-5 border-solid border-white border-b-2 border-r-2 transform rotate-45 opacity-0 peer-checked:opacity-100"></span>
+                      <span className="absolute left-2.5 top-1.5 lg:left-3.5 lg:top-2 w-2 h-4 lg:w-3 lg:h-5 border-solid border-white border-b-2 border-r-2 transform rotate-45 opacity-0 peer-checked:opacity-100"></span>
                     </label>
                   </div>
                 ))}
