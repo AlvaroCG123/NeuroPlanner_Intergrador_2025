@@ -10,6 +10,8 @@ function Dashboard() {
   const [noteText, setNoteText] = useState('');
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [user, setUser] = useState(null);
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
+  const profileMenuRef = useRef(null);
 
   const initialActivities = [
     { id: 1, title: '9h20 - Revisão antes de avaliação', description: 'Anotação: Ativar o modo foco até 10h50. Estudar as matérias: Parasitologia, Imunologia, Microbiologia.', completed: false },
@@ -73,6 +75,30 @@ function Dashboard() {
       }
     };
   }, [timerState]);
+
+  // Close profile menu when clicking outside
+  useEffect(() => {
+    function handleOutsideClick(e) {
+      if (profileMenuRef.current && !profileMenuRef.current.contains(e.target)) {
+        setShowProfileMenu(false);
+      }
+    }
+    document.addEventListener('click', handleOutsideClick);
+    return () => document.removeEventListener('click', handleOutsideClick);
+  }, []);
+
+  const handleGoToProfile = () => {
+    window.location.href = '/perfil';
+  };
+
+  const handleLogout = () => {
+    try {
+      localStorage.removeItem('user');
+    } catch (e) {
+      console.error('Erro ao limpar localStorage', e);
+    }
+    window.location.href = '/login';
+  };
 
   const handleControlTimer = () => {
     console.log('control button clicked - current state:', timerState, 'totalSeconds:', totalSeconds);
@@ -240,8 +266,17 @@ function Dashboard() {
                   {user && user.name ? (
                     <div className="hidden lg:block text-white text-sm mr-2">{user.name}</div>
                   ) : null}
-                  <div className="cursor-pointer w-9 h-9 lg:w-[50px] lg:h-[50px] rounded-full bg-[#D9D9D9] flex items-center justify-center shrink-0 overflow-hidden"> 
-                    <img src={user && user.photo ? user.photo : '/perfil.png'} alt="Perfil" className="w-8 h-8 lg:w-[46px] lg:h-[46px] object-cover" />
+                  <div ref={profileMenuRef} className="relative">
+                    <button onClick={() => setShowProfileMenu(s => !s)} className="cursor-pointer w-9 h-9 lg:w-[50px] lg:h-[50px] rounded-full bg-[#D9D9D9] flex items-center justify-center shrink-0 overflow-hidden">
+                      <img src={user && user.photo ? user.photo : '/perfil.png'} alt="Perfil" className="w-8 h-8 lg:w-[46px] lg:h-[46px] object-cover" />
+                    </button>
+
+                    {showProfileMenu && (
+                      <div className="absolute right-0 mt-2 w-44 bg-[#1B2A47] text-white rounded-md shadow-lg border border-[#2b3b52] overflow-hidden z-50">
+                        <button onClick={handleGoToProfile} className="w-full text-left px-4 py-2 hover:bg-[#273346]">Perfil</button>
+                        <button onClick={handleLogout} className="w-full text-left px-4 py-2 hover:bg-[#273346]">Sair</button>
+                      </div>
+                    )}
                   </div>
                 </div>
               </li>

@@ -9,6 +9,8 @@ export default function Perfil() {
   const [condition, setCondition] = useState('');
   const [meds, setMeds] = useState('');
   const [info, setInfo] = useState('');
+  const [responsavel, setResponsavel] = useState('');
+  const [instituicao, setInstituicao] = useState('');
   const [photoPreview, setPhotoPreview] = useState('');
 
   useEffect(() => {
@@ -23,6 +25,8 @@ export default function Perfil() {
       setContact(u.contact || '');
       setCondition(u.condition || '');
       setMeds(u.meds || '');
+      setResponsavel(u.responsavel || '');
+      setInstituicao(u.instituicao || '');
       setInfo(u.info || '');
       setPhotoPreview(u.photo || '');
     } catch (e) {
@@ -51,6 +55,8 @@ export default function Perfil() {
       name,
       birth,
       contact,
+      responsavel,
+      instituicao,
       condition,
       meds,
       info,
@@ -108,10 +114,20 @@ export default function Perfil() {
                 <label className="block text-sm md:text-base text-white/80 mb-2 uppercase">Contato de emergência</label>
                 <input value={contact} onChange={(e) => setContact(e.target.value)} type="text" placeholder="(Nome - telefone)" className="w-full bg-[#13232c] placeholder-gray-400 text-white p-3 rounded-lg text-sm md:text-base" />
               </div>
+
+              <div>
+                <label className="block text-sm md:text-base text-white/80 mb-2 uppercase">Responsável</label>
+                <input value={responsavel} onChange={(e) => setResponsavel(e.target.value)} type="text" placeholder="Nome do responsável" className="w-full bg-[#13232c] placeholder-gray-400 text-white p-3 rounded-lg text-sm md:text-base" />
+              </div>
+
+              <div>
+                <label className="block text-sm md:text-base text-white/80 mb-2 uppercase">Instituição</label>
+                <input value={instituicao} onChange={(e) => setInstituicao(e.target.value)} type="text" placeholder="Nome da instituição" className="w-full bg-[#13232c] placeholder-gray-400 text-white p-3 rounded-lg text-sm md:text-base" />
+              </div>
             </div>
           </div>
 
-          <div className="order-first v w-full flex items-center justify-center mb-6 lg:mb-0 lg:col-auto">
+          <div className="order-first lg:order-0 w-full flex items-center justify-center mb-6 lg:mb-0 lg:col-auto">
             <div className="flex flex-col items-center">
               {photoPreview ? (
                 <img src={photoPreview} alt="avatar" className="w-40 h-40 md:w-56 md:h-56 rounded-full object-cover mb-3" />
