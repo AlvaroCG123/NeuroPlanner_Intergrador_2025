@@ -70,12 +70,7 @@ export default function DiretorioSuporte() {
             </div>
           </div>
 
-          {/* CARD 4 */}
-          <div className="bg-[#253658] w-full max-w-xs md:w-[300px] h-[470px] rounded-[30px] cursor-pointer flex justify-center items-center text-center shadow-lg hover:scale-105 transition-transform duration-300 px-8 py-10 mb-10 md:mb-0">
-            <h3 className="text-4xl font-light leading-snug text-white">
-              POST-ITS VIRTUAIS <br /> ♡
-            </h3>
-          </div>
+          {/* CARD 4 removed: Post-its option intentionally omitted */}
         </div>
       </main>
     </div>

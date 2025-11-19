@@ -178,7 +178,7 @@ function Dashboard() {
       </div>
 
       <div id="note-modal" 
-        className={`fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center z-50 ${isNoteModalOpen ? '' : 'hidden'}`}
+        className={`fixed inset-0 bg-black bg-opacity-60 flex justify-center items-start pt-24 lg:items-center lg:pt-0 z-50 ${isNoteModalOpen ? '' : 'hidden'}`}
       >
         <div className="bg-[#2D3B57] p-6 rounded-xl w-11/12 max-w-md text-white flex flex-col space-y-4 shadow-xl">
           <h2 className="text-lg font-bold text-center text-[#30BBDE]">Adicionar Nova Nota</h2>
@@ -198,6 +198,13 @@ function Dashboard() {
 
       <div className="min-h-screen w-full bg-[#182132] font-inter">
         {/* Sidebar */}
+        {isSidebarOpen && (
+          <div
+            onClick={() => setIsSidebarOpen(false)}
+            className="fixed inset-0 bg-black bg-opacity-40 z-10 lg:hidden"
+          />
+        )}
+
         <aside
           className={`fixed left-0 top-0 h-screen text-white flex-col py-3 px-3 z-20 bg-[#253658] w-52 overflow-x-hidden ${isSidebarOpen ? 'flex' : 'hidden'} lg:flex`}
         >
@@ -206,6 +213,7 @@ function Dashboard() {
               <img src="/logo.png" alt="Logo" className="w-10 h-9" />
             </div>
             <h3 className="text-base ml-2 opacity-100">Rotinas</h3>
+            <button onClick={() => setIsSidebarOpen(false)} className="ml-auto text-white text-xl lg:hidden focus:outline-none">✕</button>
           </div>
 
           <button onClick={() => setIsActivityModalOpen(true)} className="w-full h-13 bg-[#374D77] text-[#30BBDE] border-none rounded-md text-left mb-7 cursor-pointer text-base font-semibold px-2 flex items-center hover:bg-[#3f66d4]">
@@ -286,11 +294,11 @@ function Dashboard() {
           {/* Main Content */}
           <main className="flex flex-col lg:flex-row grow">
             <section 
-              className="flex-1 p-4 lg:p-6 lg:pt-8 pl-4 lg:pl-20 w-full min-h-[799px]"
+              className="flex-1 p-4 lg:p-6 lg:pt-8 pl-4 lg:pl-20 w-full lg:min-h-[799px]"
             >
               <h1 className="text-3xl lg:text-5xl font-bold text-white">Atividades da Semana</h1>
               <h2 className="text-xl lg:text-2xl font-bold mt-4 lg:mt-4 mb-2 lg:mb-4 text-white">Hoje</h2>
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-y-4 lg:gap-y-6 gap-x-2 lg:gap-x-2 mt-0"> 
+              <div className={`grid grid-cols-1 lg:grid-cols-2 gap-y-4 lg:gap-y-6 gap-x-2 lg:gap-x-2 mt-0 ${activities.length >= 3 ? 'max-h-[420px] overflow-y-auto pr-2' : ''} lg:max-h-none lg:overflow-visible`}> 
                 {activities.map(activity => (
                   <div 
                     key={activity.id} 
@@ -319,44 +327,28 @@ function Dashboard() {
               </div>
             </section>
 
-            <section 
-              className="flex flex-col items-center justify-around bg-[#182132] h-auto lg:h-[799px] w-full lg:w-[400px] p-4 lg:p-6 lg:pr-60 shrink-0"
+            <section
+              className="w-full grid grid-cols-2 gap-3 px-2 bg-[#182132] h-auto lg:h-[799px] lg:flex lg:flex-col lg:items-center lg:justify-around lg:px-0 lg:w-[400px] lg:ml-50 p-4 lg:p-6 lg:pr-60 shrink-0"
             >
-              <div className="w-full max-w-sm lg:w-[450px] h-[300px] lg:h-[350px] rounded-lg bg-[#2D3B57] flex flex-col p-4 text-white justify-between my-4 lg:my-0 lg:mb-5">
-                <h2 className="text-xl lg:text-2xl font-bold mb-3">Bloco de Notas</h2>
-                <div className="grow flex flex-col items-start justify-start text-[#A0AABF] text-sm space-y-3 overflow-y-auto w-full">
+              <div className="w-full aspect-square rounded-lg bg-[#2D3B57] flex flex-col p-4 text-white justify-between my-2 lg:my-0 lg:mb-5 lg:w-[450px] lg:h-[350px]">
+                <h2 className="text-lg lg:text-2xl font-bold mb-2">Post-its virtuais</h2>
+                <div className="grow flex flex-col items-start justify-center text-[#A0AABF] text-sm w-full">
                   {notes.length === 0 ? (
-                    <div className="flex items-center gap-2">
-                      <div className="w-4 h-4 lg:w-5 lg:h-5 border-2 border-[#A0AABF] rounded-md shrink-0"></div>
-                      <p className="text-sm">Sem notas por enquanto</p>
-                    </div>
+                    <p className="text-sm">Sem post-its por enquanto</p>
                   ) : (
-                    notes.map(note => (
-                      <div key={note.id} className="flex items-center gap-4 w-full text-white text-sm relative">
-                        <label className="relative cursor-pointer shrink-0">
-                          <input 
-                            type="checkbox" 
-                            checked={note.completed}
-                            onChange={() => toggleNoteCompletion(note.id)}
-                            className="hidden peer" 
-                          />
-                          <span className="w-4 h-4 lg:w-5 lg:h-5 border-2 border-[#A0AABF] rounded-md inline-block peer-checked:bg-[#4F77F1] peer-checked:border-[#4F77F1]"></span>
-                          <span className="absolute left-1 top-0.5 lg:left-1.5 lg:top-1 w-1 h-2.5 lg:w-1.5 lg:h-3 border-solid border-white border-b-2 border-r-2 transform rotate-45 hidden peer-checked:block"></span>
-                        </label>
-                        <p className={`grow pr-8 lg:pr-10 break-all ${note.completed ? 'line-through text-gray-400' : 'text-white'}`}>{note.text}</p>
-                        <button onClick={() => deleteNote(note.id)} className="absolute right-0 top-1/2 transform -translate-y-1/2 p-1 bg-none border-none cursor-pointer opacity-50 hover:opacity-100">
-                          <img src="/lixeira.png" alt="Apagar" className="w-3 h-3 lg:w-4 lg:h-4 block" />
-                        </button>
-                      </div>
-                    ))
+                    <div className="w-full grid grid-cols-2 gap-2">
+                      {notes.map(note => (
+                        <div key={note.id} className="bg-[#253450] rounded-md p-2 text-sm text-white">{note.text}</div>
+                      ))}
+                    </div>
                   )}
                 </div>
                 <button onClick={() => setIsNoteModalOpen(true)} className="cursor-pointer w-full lg:w-3/5 self-center bg-[#4F77F1] text-white border-none rounded-lg h-8 text-xs font-bold hover:bg-[#3f66d4] mt-3">
-                  + add nota
+                  + add post-its
                 </button>
               </div>
 
-              <div className="w-full max-w-sm lg:w-[450px] h-[300px] lg:h-[350px] rounded-lg bg-[#2D3B57] flex flex-col p-4 text-white justify-between mb-4 lg:mb-0">
+              <div className="w-full aspect-square rounded-lg bg-[#2D3B57] flex flex-col p-4 text-white justify-between mt-2 mb-6 lg:mb-0 lg:w-[450px] lg:h-[350px]">
                 <h2 className="text-xl lg:text-2xl font-bold mb-3">Modo Foco</h2>
                 <div className="w-32 h-32 lg:w-35 lg:h-35 border-2 border-white rounded-full mx-auto flex items-center justify-center text-xl lg:text-2xl font-bold mb-2">
                   <p id="timer-display">{formatTime(totalSeconds)}</p>
