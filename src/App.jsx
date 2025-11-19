@@ -7,8 +7,9 @@ import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Welcome from './pages/Welcome';
-import Help from './pages/Help';
 import Local from './pages/Local';
+import Help from './pages/Help';
+import Vinculacao from './pages/Vinculacao';
 import Plano from './pages/Plano';
 import Formulario from './pages/Formulario';
 import Rotinas from './pages/Rotinas';
@@ -31,8 +32,9 @@ function App() {
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
       <Route path="/welcome" element={<Welcome />} />
-      <Route path="/help" element={<Help />} />
       <Route path="/local" element={<Local />} />
+      <Route path="/vinculacao" element={<Vinculacao />} />
+      <Route path="/help" element={<Help />} />
       <Route path="/plano" element={<Plano />} />
       <Route path="/formulario" element={<Formulario />} />
       <Route path="/rotinas" element={<Rotinas />} />

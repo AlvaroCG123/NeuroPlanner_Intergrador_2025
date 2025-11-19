@@ -41,7 +41,14 @@ export default function Local() {
       // NOTA IMPORTANTE: Para persistência real em uma aplicação Canvas/Google, 
       // este localStorage DEVE ser substituído por uma operação no Firestore (setDoc/updateDoc)
       // associada ao ID do usuário.
-      navigate('/formulario');
+      // Navegação condicional por perfil
+      if (selectedProfile === 'student') {
+        navigate('/help');
+      } else if (selectedProfile === 'responsible') {
+        navigate('/vinculacao');
+      } else {
+        navigate('/formulario');
+      }
     } else {
       console.log('Por favor, selecione um perfil antes de continuar.');
     }
@@ -87,15 +94,15 @@ export default function Local() {
         </div>
       </main>
       <footer className="bottom-navigation w-full flex justify-between items-center px-6 md:px-12 py-6 sticky bottom-0 z-10">
-        <div className="nav-arrow left-arrow text-3xl text-white">
-          <Link to="/help">&#10094;</Link>
+        <div className="nav-arrow left-arrow w-12 flex justify-center text-3xl text-white">
+          <Link to="/welcome">&#10094;</Link>
         </div>
         <div className="pagination-dots flex gap-3">
-          <span className="dot w-2.5 h-2.5 rounded-full bg-[#A0AEC0] opacity-50" />
           <span className="dot w-2.5 h-2.5 rounded-full bg-[#30BBDE] opacity-100" />
           <span className="dot w-2.5 h-2.5 rounded-full bg-[#A0AEC0] opacity-50" />
+          <span className="dot w-2.5 h-2.5 rounded-full bg-[#A0AEC0] opacity-50" />
         </div>
-        <div className="nav-arrow right-arrow text-3xl">
+        <div className="nav-arrow right-arrow w-12 flex justify-center text-3xl">
           <button 
             onClick={handleNext}
             disabled={!selectedProfile}

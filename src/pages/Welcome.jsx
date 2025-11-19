@@ -28,7 +28,7 @@ export default function Welcome() {
             <span className="dot w-2.5 h-2.5 rounded-full bg-[#A0AEC0] opacity-0" />
           </div>
           <div className="nav-arrow text-3xl text-white cursor-pointer hover:text-[#30BBDE] transition">
-            <Link to="/help">&#10095;</Link>
+            <Link to="/local">&#10095;</Link>
           </div>
         </div>
       </div>

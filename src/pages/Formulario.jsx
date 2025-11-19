@@ -35,15 +35,16 @@ export default function Formulario() {
         </div>
       </main>
       <footer className="bottom-navigation w-full flex justify-between items-center px-6 md:px-12 py-6 sticky bottom-0 z-10">
-        <div className="nav-arrow left-arrow text-3xl text-white">
-          <Link to="/local">&#10094;</Link>
+        <div className="nav-arrow left-arrow w-12 flex justify-center text-3xl text-white">
+          <Link to="/help">&#10094;</Link>
         </div>
         <div className="pagination-dots flex gap-3">
           <span className="dot w-2.5 h-2.5 rounded-full bg-[#A0AEC0] opacity-50" />
           <span className="dot w-2.5 h-2.5 rounded-full bg-[#A0AEC0] opacity-50" />
           <span className="dot w-2.5 h-2.5 rounded-full bg-[#30BBDE] opacity-100" />
         </div>
-        <div className="nav-arrow right-arrow text-3xl text-white opacity-0">
+        <div className="nav-arrow right-arrow w-12 flex justify-center text-3xl text-white opacity-0">
+          <span>&#10095;</span>
         </div>
       </footer>
     </div>
