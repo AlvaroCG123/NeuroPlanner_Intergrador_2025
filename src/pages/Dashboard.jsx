@@ -350,7 +350,7 @@ function Dashboard() {
 
               <div className="w-full aspect-square rounded-lg bg-[#2D3B57] flex flex-col p-4 text-white justify-between mt-2 mb-6 lg:mb-0 lg:w-[450px] lg:h-[350px]">
                 <h2 className="text-xl lg:text-2xl font-bold mb-3">Modo Foco</h2>
-                <div className="w-22 h-22 lg:w-35 lg:h-35 border-2 border-white rounded-full mx-auto flex items-center justify-center text-xl lg:text-2xl font-bold mb-2">
+                <div className="w-22  h-22 lg:w-35 lg:h-35 border-2 border-white rounded-full mx-auto flex items-center justify-center text-xl lg:text-2xl font-bold mb-2">
                   <p id="timer-display">{formatTime(totalSeconds)}</p>
                 </div>
                 <div className="flex justify-center gap-2 w-full lg:w-4/5 self-center">

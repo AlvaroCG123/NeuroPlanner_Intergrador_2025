@@ -23,6 +23,7 @@ import Formulario3 from './pages/Formulario3';
 import Formulario4 from './pages/Formulario4';
 import Formulario5 from './pages/Formulario5';
 import Formulario6 from './pages/Formulario6';
+import DashboardResponsavel from './pages/DashboardResponsavel';
 
 function App() {
   return (
@@ -49,6 +50,7 @@ function App() {
       <Route path="/formulario4" element={<Formulario4 />} />
       <Route path="/formulario5" element={<Formulario5 />} />
       <Route path="/formulario6" element={<Formulario6 />} />
+      <Route path="/dashboard-responsavel" element={<DashboardResponsavel />} />
     </Routes>
   )
 }
