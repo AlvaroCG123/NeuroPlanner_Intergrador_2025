@@ -124,24 +124,24 @@ export default function DashboardResponsavel(){
                     </nav>
 
                     {/* Main Grid Layout */}
-                <main className="flex-1 p-6 lg:p-10 flex flex-col xl:flex-row gap-6">
+                    <main className="flex-1 p-3 lg:p-8 lg:px-22 flex flex-col xl:flex-row gap-4">
                     
                     {/* Coluna Esquerda - Relatório */}
-                    <section className="flex-1 flex flex-col">
-                        <h1 className="text-4xl font-bold text-white mb-8">Relatório da semana</h1>
+                    <section className="flex-1 flex flex-col xl:max-w-[880px] md:ml-0">
+                        <h1 className="text-4xl font-bold text-white mb-6">Relatório da semana</h1>
                         
-                        <h2 className="text-2xl font-bold text-white mb-4">Hoje</h2>
+                        <h2 className="text-2xl font-bold text-white mb-6">Hoje</h2>
 
-                        <div className="bg-[#202b41] rounded-[30px] p-8 lg:p-12 flex flex-col md:flex-row items-center md:items-start gap-10">
+                        <div className="bg-[#202b41] rounded-[30px] p-3 sm:p-4 md:p-6 lg:p-10 flex flex-col md:flex-row items-center md:items-start gap-8">
                             
                             {/* Gráfico Circular */}
                             <div className="flex flex-col items-center gap-4">
-                                <div className="relative w-64 h-64 rounded-full border-16 border-[#30BBDE] flex items-center justify-center">
-                                    <span className="text-6xl font-extrabold text-white">{percent}%</span>
+                                <div className="relative w-40 h-40 sm:w-44 sm:h-44 md:w-56 md:h-56 lg:w-72 lg:h-72 xl:w-80 xl:h-80 rounded-full flex items-center justify-center border-[#30BBDE] border-6 sm:border-8 md:border-12 lg:border-16">
+                                    <span className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold text-white">{percent}%</span>
                                 </div>
                                 <div className="text-center">
-                                    <h3 className="text-2xl font-bold text-white">Das Atividades</h3>
-                                    <p className="text-gray-400 font-light text-xl">Concluídas</p>
+                                    <h3 className="text-xl font-bold text-white">Das Atividades</h3>
+                                    <p className="text-gray-400 font-light text-lg">Concluídas</p>
                                 </div>
                             </div>
 
@@ -150,16 +150,16 @@ export default function DashboardResponsavel(){
                                 <div className='flex flex-col items-center'>
                                 <h3 className="text-3xl font-bold text-white mb-4">Consistencia na rotina:</h3>
                                 
-                                <div className="bg-[#30BBDE] text-[#ffffff] font-bold text-lg py-2 px-10 rounded-lg inline-block mb-2">
+                                <div className="bg-[#30BBDE] text-[#ffffff] font-bold text-lg py-2 px-8 rounded-lg inline-block mb-2">
                                     EXCELENTE
                                 </div>
-                                <p className="text-sm text-gray-400 mb-10">Estudos + Lazer + Pausas + Refeições</p>
+                                <p className="text-sm text-gray-400 mb-6">Estudos + Lazer + Pausas + Refeições</p>
                                  </div>
                                  <div className=' flex flex-col items-center'>               
                                 <h3 className="text-3xl font-bold text-white mb-4">Bem-Estar:</h3>
                                 
                                 {/* Grid de Dias e Emojis - AGORA FUNCIONA */}
-                                <div className="grid grid-cols-6 gap-2 max-w-md mx-auto md:mx-0 mb-6">
+                                <div className="grid grid-cols-6 gap-2 w-full max-w-full overflow-x-auto mx-auto md:mx-0 mb-6">
                                     {weekData.map((item, i) => (
                                         <div key={i} className="flex flex-col items-center gap-2">
                                             <span className="text-gray-400 text-sm font-medium">{item.day}</span>
@@ -178,10 +178,10 @@ export default function DashboardResponsavel(){
                     </section>
 
                     {/* Coluna Direita - Widgets */}
-                    <section className="w-full xl:w-[380px] flex flex-col gap-6 xl:mt-0 lg:ml-8 mr-0"> 
+                    <section className="w-full xl:w-[380px] flex flex-col gap-6 xl:mt-0 lg:ml-50 mr-0"> 
                         
                         {/* Card Post-its */}
-                        <div className="w-full aspect-square rounded-lg bg-[#2D3B57] flex flex-col p-4 text-white justify-between my-2 lg:my-0 lg:mb-5 lg:w-[450px] lg:h-[350px]">
+                        <div className="w-full rounded-lg bg-[#2D3B57] flex flex-col p-4 text-white justify-between my-2 lg:my-0 lg:mb-5 lg:w-[450px] lg:h-[350px] h-auto">
                             <div>
                                 <h3 className="text-2xl font-bold text-white mb-1">Post-its virtuais</h3>
                                 <p className="text-gray-400 text-sm mb-6">Sem post-its por enquanto</p>
@@ -191,9 +191,9 @@ export default function DashboardResponsavel(){
                             </button>
                         </div>
 
-                        {/* Card Bloqueado - AGORA FUNCIONA */}
-                        <div className="w-full aspect-square rounded-lg bg-[#2D3B57] flex flex-col p-4 text-white justify-between my-2 lg:my-0 lg:mb-5 lg:w-[450px] lg:h-[350px]">
-                               <div className=" rounded-xl p-6 flex flex-col items-center justify-center h-72 lg:h-[470px]">
+                           {/* Card Bloqueado - AGORA FUNCIONA */}
+                           <div className="w-full rounded-lg bg-[#2D3B57] flex flex-col p-4 text-white justify-between my-2 lg:my-0 lg:w-[450px] lg:h-[350px] h-auto">
+                               <div className=" rounded-xl p-6 flex flex-col items-center justify-center h-auto lg:h-[470px]">
                                     <div className="mb-4 flex items-center justify-center">
                                         <LockIcon className="w-24 h-24 lg:w-36 lg:h-36" />
                                     </div>
