@@ -14,23 +14,20 @@ export default function Formulario2() {
         <section className='flex flex-col gap-8 lg:gap-10 md:bg-[#202D40] bg-transparent rounded-3xl lg:rounded-4xl p-6 lg:px-39 lg:pt-5 lg:pb-20 max-w-4xl lg:max-w-none'>
           <p className='text-[#6E8FCE] text-lg lg:text-2xl'>2/6</p>
           <div className='flex flex-col gap-8 lg:gap-10'>
-            <p className='text-[white] text-2xl lg:text-4xl text-start lg:text-center'>Qual tipo de ambiente de estudo você considera mais produtivo?</p>
+            <p className='text-[white] text-2xl lg:text-4xl text-start lg:text-center'>Em relação à duração e estrutura, como você prefere organizar suas sessões de estudo?</p>
   
             <button className='text-[white] bg-[#273346] p-4 lg:p-4.5 rounded-2xl lg:rounded-3xl text-base lg:text-2xl text-left hover:bg-[#17263f] focus:bg-[#17263f] cursor-pointer'>
-              Qualquer um, desde que eu esteja focado.
+              Estudar quando me sinto inspirado, sem rotina fixa.
             </button>
   
             <button className='text-[white] bg-[#273346] p-4 lg:p-4.5 rounded-2xl lg:rounded-3xl text-base lg:text-2xl text-left hover:bg-[#17263f] focus:bg-[#17263f] cursor-pointer'>
-              Com algum barulho ambiente, como de um café ou biblioteca movimentada.
-            </button>
+             Blocos de estudo longos (1-2 horas) com poucas poucas pausas.            </button>
   
             <button className='text-[white] bg-[#273346] p-4 lg:p-4.5 rounded-2xl lg:rounded-3xl text-base lg:text-2xl text-left hover:bg-[#17263f] focus:bg-[#17263f] cursor-pointer'>
-              Silenciosos, com o mínimo de ruído e sem música.
-            </button>
+             Varia muito, depende da matéria e do meu humor.            </button>
   
             <button className='text-[white] bg-[#273346] p-4 lg:p-4.5 rounded-2xl lg:rounded-3xl text-base lg:text-2xl text-left hover:bg-[#17263f] focus:bg-[#17263f] cursor-pointer'>
-              Com música instrumental ou sons da natureza.
-            </button>
+             Blocos de estudo curtos (25-30 minutos) com intervalos frequentes (5-10 minutos).            </button>
   
             <div>
               <div className="flex flex-col lg:flex-row justify-between items-center gap-4 lg:gap-0">

@@ -14,22 +14,22 @@ export default function Formulario6() {
         <section className='flex flex-col gap-8 lg:gap-10 md:bg-[#202D40] bg-transparent rounded-3xl lg:rounded-4xl p-6 lg:px-39 lg:pt-5 lg:pb-20 max-w-4xl lg:max-w-none'>
           <p className='text-[#6E8FCE] text-lg lg:text-2xl'>6/6</p>
           <div className='flex flex-col gap-8 lg:gap-10'>
-            <p className='text-[white] text-2xl lg:text-4xl text-start lg:text-center'>Qual tipo de ambiente de estudo você considera mais produtivo?</p>
+            <p className='text-[white] text-2xl lg:text-4xl text-start lg:text-center'>Quando se sente sobrecarregado(a) com as informações de estudo, qual estratégia usa para processar o conteúdo?</p>
   
             <button className='text-[white] bg-[#273346] p-4 lg:p-4.5 rounded-2xl lg:rounded-3xl text-base lg:text-2xl text-left hover:bg-[#17263f] focus:bg-[#17263f] cursor-pointer'>
-              Qualquer um, desde que eu esteja focado.
+              Mudar para outra tarefa quando me sinto sobrecarregado.
             </button>
   
             <button className='text-[white] bg-[#273346] p-4 lg:p-4.5 rounded-2xl lg:rounded-3xl text-base lg:text-2xl text-left hover:bg-[#17263f] focus:bg-[#17263f] cursor-pointer'>
-              Com algum barulho ambiente, como de um café ou biblioteca movimentada.
+              Tentar absorver todo o conteúdo de uma vez para não perder o fio.
             </button>
   
             <button className='text-[white] bg-[#273346] p-4 lg:p-4.5 rounded-2xl lg:rounded-3xl text-base lg:text-2xl text-left hover:bg-[#17263f] focus:bg-[#17263f] cursor-pointer'>
-              Silenciosos, com o mínimo de ruído e sem música.
+              Ignorar a sobrecarga e seguir em frente.
             </button>
   
             <button className='text-[white] bg-[#273346] p-4 lg:p-4.5 rounded-2xl lg:rounded-3xl text-base lg:text-2xl text-left hover:bg-[#17263f] focus:bg-[#17263f] cursor-pointer'>
-              Com música instrumental ou sons da natureza.
+              Dividir o conteúdo em partes menores e estudar uma parte por vez.
             </button>
   
             <div>

@@ -14,22 +14,22 @@ export default function Formulario5() {
         <section className='flex flex-col gap-8 lg:gap-10 md:bg-[#202D40] bg-transparent rounded-3xl lg:rounded-4xl p-6 lg:px-39 lg:pt-5 lg:pb-20 max-w-4xl lg:max-w-none'>
           <p className='text-[#6E8FCE] text-lg lg:text-2xl'>5/6</p>
           <div className='flex flex-col gap-8 lg:gap-10'>
-            <p className='text-[white] text-2xl lg:text-4xl text-start lg:text-center'>Qual tipo de ambiente de estudo você considera mais produtivo?</p>
+            <p className='text-[white] text-2xl lg:text-4xl text-start lg:text-center'>Considerando a adaptação ao intercâmbio, você acredita que ter um horário de sono fixo é importante para você?</p>
   
             <button className='text-[white] bg-[#273346] p-4 lg:p-4.5 rounded-2xl lg:rounded-3xl text-base lg:text-2xl text-left hover:bg-[#17263f] focus:bg-[#17263f] cursor-pointer'>
-              Qualquer um, desde que eu esteja focado.
+              Sim, ter um horário fixo para acordar e dormir é essencial.
             </button>
   
             <button className='text-[white] bg-[#273346] p-4 lg:p-4.5 rounded-2xl lg:rounded-3xl text-base lg:text-2xl text-left hover:bg-[#17263f] focus:bg-[#17263f] cursor-pointer'>
-              Com algum barulho ambiente, como de um café ou biblioteca movimentada.
+              Apenas tento dormir o suficiente, sem me preocupar com horários fixos.
             </button>
   
             <button className='text-[white] bg-[#273346] p-4 lg:p-4.5 rounded-2xl lg:rounded-3xl text-base lg:text-2xl text-left hover:bg-[#17263f] focus:bg-[#17263f] cursor-pointer'>
-              Silenciosos, com o mínimo de ruído e sem música.
+              Só me preocupo com o sono em dias de prova.
             </button>
   
             <button className='text-[white] bg-[#273346] p-4 lg:p-4.5 rounded-2xl lg:rounded-3xl text-base lg:text-2xl text-left hover:bg-[#17263f] focus:bg-[#17263f] cursor-pointer'>
-              Com música instrumental ou sons da natureza.
+              Não, prefiro flexibilidade e durmo quando sinto sono.
             </button>
   
             <div>

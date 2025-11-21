@@ -2,20 +2,49 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 export default function Autenticacao() {
-  const [code, setCode] = useState('');
+  const [cnpj, setCnpj] = useState('');
+  const [email, setEmail] = useState('');
   const [requested, setRequested] = useState(false);
-    const [showConfirmation, setShowConfirmation] = useState(false);
+  const [showConfirmation, setShowConfirmation] = useState(false);
   const navigate = useNavigate();
 
   const handleRequest = () => {
-    if (!code.trim()) return;
+    if (!cnpj.trim() || !email.trim()) return;
     setRequested(true);
-    // show animated confirmation first, then navigate
-    setShowConfirmation(true);
-    setTimeout(() => {
-      // after animation, go to dashboard
-      navigate('/dashboard');
-    }, 2000);
+
+    // Fazer a requisição para a API de instituições
+    fetch('http://localhost:4000/institutions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ 
+        cnpj: cnpj.trim(), 
+        email: email.trim().toLowerCase() 
+      }),
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error('Erro ao enviar solicitação');
+        }
+      })
+      .then((data) => {
+        // Salvar dados da instituição no localStorage
+        localStorage.setItem('institution', JSON.stringify(data));
+        
+        // Mostrar confirmação e navegar
+        setShowConfirmation(true);
+        setTimeout(() => {
+          navigate('/dashboard');
+        }, 2000);
+      })
+      .catch((error) => {
+        console.error('Erro:', error);
+        alert('Erro ao enviar solicitação. Tente novamente.');
+        setRequested(false); // Reabilita o botão em caso de erro
+      });
   };
 
   // SVG Icons para as setas de navegação
@@ -36,15 +65,16 @@ export default function Autenticacao() {
     <div className="min-h-screen w-full font-sans flex flex-col bg-cover bg-center" style={{backgroundImage: "url('/fundodesktop2.png')"}}>
       
       <header className="flex items-center px-6 md:px-12 py-6">
-              <div className="flex items-center logo text-white text-2xl font-bold">
-                <img src="/LOGONEURO.png" alt="NeuroPlanner Logo" className="w-10 md:w-12 mr-3" />
-                <Link to="/" className="no-underline text-white">
-                  <span className="text-[#30BBDE]">Neuro</span>Planner
-                </Link>
-              </div>
-            </header>
+        <div className="flex items-center logo text-white text-2xl font-bold">
+          <img src="/LOGONEURO.png" alt="NeuroPlanner Logo" className="w-10 md:w-12 mr-3" />
+          <Link to="/" className="no-underline text-white">
+            <span className="text-[#30BBDE]">Neuro</span>Planner
+          </Link>
+        </div>
+      </header>
+
       {/* Conteúdo Central */}
-      <div className="flex-1 flex flex-col items-center justify-center w-full md:max-w-2xl mx-auto">
+      <div className="flex-1 flex flex-col items-center justify-center w-full p-6 md:max-w-2xl mx-auto">
         
         <div className="flex flex-col items-center mb-12">
           <h1 className="text-2xl md:text-4xl text-center font-light text-white/90">
@@ -53,47 +83,46 @@ export default function Autenticacao() {
         </div>
 
         <div className="w-full md:px-8 gap-4">
-          <div>
-          {/* Input com Label na Borda */}
+          {/* Campo CNPJ */}
           <div className="relative mb-8">
             <input
-              value={code}
-              onChange={(e) => setCode(e.target.value)}
-              className="w-full bg-transparent text-white border border-white rounded-2xl  py-6.5 outline-none focus:border-[#30BBDE] transition-colors text-center"
+              value={cnpj}
+              onChange={(e) => setCnpj(e.target.value)}
+              className="w-full bg-transparent text-white border text-2xl rounded-2xl py-6.5 outline-none border-[#30BBDE] transition-colors text-center"
               type="text"
+              placeholder="00.000.000/0000-00"
             />
-            {/* Label posicionado na borda superior direita */}
-            <label className="absolute -top-2.5 right-8 px-2 bg-[#081524] md:text-xl text-[#30BBDE] font-light tracking-wide">
+            <label className="absolute -top-3.5 right-8 px-2 bg-[#081524] md:text-xl text-[#30BBDE] font-light tracking-wide">
               insira o CNPJ (obrigatório)
             </label>
-            </div>
-
-
-            <div>
-            {/* Input com Label na Borda */}
-            <div className="relative mb-8">
-            <input
-              value={code}
-              onChange={(e) => setCode(e.target.value)}
-              className="w-full bg-transparent text-white border border-white rounded-2xl  py-6.5 outline-none focus:border-[#30BBDE] transition-colors text-center"
-              type="text"/>
-              {/* Label posicionado na borda superior direita */}
-            <label className="absolute -top-2.5 right-8 px-2 bg-[#081524] md:text-xl text-[#30BBDE] font-light tracking-wide">
-              insira o E-mail intitucional (obrigatório)
-            </label>
-            </div>
-            </div>
           </div>
 
-        <div className='px-30'>
-          <button
-            onClick={handleRequest}
-            className={`block w-full py-3 rounded-full bg-transparent text-2xl text-[#30BBDE] border border-[#30BBDE] 
-            shadow-[0_0_15px_rgba(48,187,222,0.15)] hover:shadow-[0_0_20px_rgba(48,187,222,0.3)] 
-            hover:bg-[#30BBDE]/5 transition-all duration-300 font-medium tracking-wide`}
-          >
-            Concluir
-          </button>
+          {/* Campo E-mail */}
+          <div className="relative mb-8">
+            <input
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full bg-transparent text-white border text-2xl rounded-2xl py-6.5 outline-none border-[#30BBDE] transition-colors text-center"
+              type="email"
+              placeholder="instituicao@exemplo.edu.br"
+            />
+            <label className="absolute -top-3.5 right-8 px-2 bg-[#081524] md:text-xl text-[#30BBDE] font-light tracking-wide">
+              insira o E-mail institucional (obrigatório)
+            </label>
+          </div>
+
+          <div className='px-30'>
+            <button
+              onClick={handleRequest}
+              disabled={!cnpj.trim() || !email.trim() || requested}
+              className={`block w-full py-3 rounded-full text-2xl border transition-all duration-300 font-medium tracking-wide
+                ${(!cnpj.trim() || !email.trim() || requested) 
+                  ? 'bg-gray-600 text-gray-400 border-gray-500 cursor-not-allowed' 
+                  : 'bg-transparent text-[#30BBDE] border-[#30BBDE] shadow-[0_0_15px_rgba(48,187,222,0.15)] hover:shadow-[0_0_20px_rgba(48,187,222,0.3)] hover:bg-[#30BBDE]/5'
+                }`}
+            >
+              {requested ? 'Enviando...' : 'Concluir'}
+            </button>
           </div>
         </div>
       </div>
@@ -113,14 +142,17 @@ export default function Autenticacao() {
         <div className="nav-arrow right-arrow w-12 flex justify-center text-3xl text-white">
           <button
             onClick={handleRequest}
-            disabled={!code.trim() || requested}
-            className={`bg-transparent border-none p-0 cursor-pointer transition duration-300 focus:outline-none ${(!code.trim() || requested) ? 'text-gray-500 opacity-50 cursor-not-allowed' : 'text-white hover:text-[#30BBDE]'}`}
+            disabled={!cnpj.trim() || !email.trim() || requested}
+            className={`bg-transparent border-none p-0 cursor-pointer transition duration-300 focus:outline-none ${
+              (!cnpj.trim() || !email.trim() || requested) ? 'text-gray-500 opacity-50 cursor-not-allowed' : 'text-white hover:text-[#30BBDE]'
+            }`}
           >
             &#10095;
           </button>
         </div>
       </footer>
     </div>
+
     {showConfirmation && (
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60">
         <style>{`
