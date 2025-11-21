@@ -82,7 +82,7 @@ export default function DashboardResponsavel(){
                     </button>
 
                     {[
-                        { icon: "/pessoa.png", alt: "Pessoa", text: "Perfil", path: "/perfil" },
+                        { icon: "/pessoa.png", alt: "Pessoa", text: "Perfil", path: "/perfil-responsavel" },
                         { icon: "/pessoaConfig.png", alt: "Configuração", text: "Configurações", path: "/configuracoes" },
                         { icon: "/seta.png", alt: "Seta", text: "Diretório de Suporte", path: "/diretorio-suporte" }
                     ].map((item) => (
@@ -113,7 +113,7 @@ export default function DashboardResponsavel(){
                                         </button>
                                         {showProfileMenu && (
                                             <div className="absolute right-0 mt-2 w-44 bg-[#1B2A47] text-white rounded-md border border-[#2b3b52] overflow-hidden z-50">
-                                                <button onClick={() => window.location.href = '/perfil'} className="w-full text-left px-4 py-2 hover:bg-[#273346]">Perfil</button>
+                                                <button onClick={() => window.location.href = '/perfil-responsavel'} className="w-full text-left px-4 py-2 hover:bg-[#273346]">Perfil</button>
                                                 <button onClick={handleLogout} className="w-full text-left px-4 py-2 hover:bg-[#273346]">Sair</button>
                                             </div>
                                         )}

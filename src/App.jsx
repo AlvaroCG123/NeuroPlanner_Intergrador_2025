@@ -24,7 +24,7 @@ import Formulario4 from './pages/Formulario4';
 import Formulario5 from './pages/Formulario5';
 import Formulario6 from './pages/Formulario6';
 import DashboardResponsavel from './pages/DashboardResponsavel';
-
+import PerfilResponsavel from './pages/PerfilResponsavel';
 function App() {
   return (
     <Routes>
@@ -51,6 +51,7 @@ function App() {
       <Route path="/formulario5" element={<Formulario5 />} />
       <Route path="/formulario6" element={<Formulario6 />} />
       <Route path="/dashboard-responsavel" element={<DashboardResponsavel />} />
+      <Route path="/perfil-responsavel" element={<PerfilResponsavel />} />
     </Routes>
   )
 }
