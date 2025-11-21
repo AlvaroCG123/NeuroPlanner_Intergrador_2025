@@ -25,6 +25,7 @@ import Formulario5 from './pages/Formulario5';
 import Formulario6 from './pages/Formulario6';
 import DashboardResponsavel from './pages/DashboardResponsavel';
 import PerfilResponsavel from './pages/PerfilResponsavel';
+import Autenticacao from './pages/Autenticacao';
 function App() {
   return (
     <Routes>
@@ -52,6 +53,7 @@ function App() {
       <Route path="/formulario6" element={<Formulario6 />} />
       <Route path="/dashboard-responsavel" element={<DashboardResponsavel />} />
       <Route path="/perfil-responsavel" element={<PerfilResponsavel />} />
+      <Route path="Autenticacao" element={<Autenticacao/>} />
     </Routes>
   )
 }
