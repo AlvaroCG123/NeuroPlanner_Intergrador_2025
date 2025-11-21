@@ -37,7 +37,7 @@ export default function Autenticacao() {
         // Mostrar confirmação e navegar
         setShowConfirmation(true);
         setTimeout(() => {
-          navigate('/dashboard');
+          navigate('/codigo'); // Mudando para navegar para a página do código
         }, 2000);
       })
       .catch((error) => {
@@ -47,25 +47,13 @@ export default function Autenticacao() {
       });
   };
 
-  // SVG Icons para as setas de navegação
-  const ChevronLeft = () => (
-    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M15 18l-6-6 6-6" />
-    </svg>
-  );
-
-  const ChevronRight = () => (
-    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M9 18l6-6-6-6" />
-    </svg>
-  );
-
   return (
     <>
     <div className="min-h-screen w-full font-sans flex flex-col bg-cover bg-center" style={{backgroundImage: "url('/fundodesktop2.png')"}}>
       
       <header className="flex items-center px-6 md:px-12 py-6">
         <div className="flex items-center logo text-white text-2xl font-bold">
+          {/* Corrigindo o caminho da logo */}
           <img src="/LOGONEURO.png" alt="NeuroPlanner Logo" className="w-10 md:w-12 mr-3" />
           <Link to="/" className="no-underline text-white">
             <span className="text-[#30BBDE]">Neuro</span>Planner
@@ -135,7 +123,7 @@ export default function Autenticacao() {
 
         <div className="pagination-dots flex gap-3">
           <span className="dot w-2.5 h-2.5 rounded-full bg-[#A0AEC0] opacity-50" />
-          <span className="dot w-2.5 h-2.5 rounded-full bg-[#30BBDE] opacity- " />
+          <span className="dot w-2.5 h-2.5 rounded-full bg-[#30BBDE] opacity-100" />
           <span className="dot w-2.5 h-2.5 rounded-full bg-[#A0AEC0] opacity-50" />
         </div>
 
