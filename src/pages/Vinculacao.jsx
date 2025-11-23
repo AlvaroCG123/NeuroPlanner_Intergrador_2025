@@ -13,8 +13,8 @@ export default function Vinculacao() {
     // show animated confirmation first, then navigate
     setShowConfirmation(true);
     setTimeout(() => {
-      // after animation, go to dashboard
-      navigate('/dashboard');
+      // after animation, go to dashboard of responsável
+      navigate('/dashboard-responsavel');
     }, 2000);
   };
 

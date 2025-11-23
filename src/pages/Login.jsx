@@ -24,6 +24,13 @@ export default function Login() {
         const user = users[0];
         if (user.password && user.password === qPassword) {
           localStorage.setItem('user', JSON.stringify(user));
+          // redirecionar conforme profile salvo no usuário
+          try {
+            if (user && user.profile === 'responsible') {
+              navigate('/dashboard-responsavel');
+              return;
+            }
+          } catch (e) {}
           navigate('/dashboard');
         } else {
           alert('Senha inválida. Verifique e tente novamente.');

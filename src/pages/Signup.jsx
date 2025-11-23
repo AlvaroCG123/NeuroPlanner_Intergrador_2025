@@ -18,13 +18,20 @@ export default function Signup() {
     const normalizedEmail = email.trim().toLowerCase();
     const normalizedPassword = password.trim();
 
-    // Prepare payload
+    // Prepare payload (inclui profile se o usuário já tiver selecionado em /local)
+    let selectedProfile = 'student';
+    try {
+      const sp = localStorage.getItem('selectedProfileOption');
+      if (sp) selectedProfile = sp;
+    } catch (e) {}
+
     const payload = {
       name: name.trim(),
       email: normalizedEmail,
       password: normalizedPassword,
       // armazenamos apenas a URL do preview local. Em um backend real, você guardaria o path/URL retornado
-      photo: preview || ''
+      photo: preview || '',
+      profile: selectedProfile
     };
 
     fetch('http://localhost:4000/users', {
@@ -36,6 +43,7 @@ export default function Signup() {
       .then((user) => {
         // salvar usuario no localStorage para manter sessão simples
         localStorage.setItem('user', JSON.stringify(user));
+        // Redirecionamento padrão: levar para /welcome após cadastro
         navigate('/welcome');
       })
       .catch((err) => {
