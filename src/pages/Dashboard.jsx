@@ -10,6 +10,7 @@ function Dashboard() {
   const [noteText, setNoteText] = useState('');
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [user, setUser] = useState(null);
+  const [studentCode, setStudentCode] = useState(null);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const profileMenuRef = useRef(null);
 
@@ -75,6 +76,41 @@ function Dashboard() {
       }
     };
   }, [timerState]);
+
+  // procura por um código de vinculação no user ou no localStorage; se não existir, gera um temporário
+  useEffect(() => {
+    try {
+      // prioridade: estado `user` carregado
+      let u = user;
+      if (!u) {
+        const raw = localStorage.getItem('user');
+        if (raw) u = JSON.parse(raw);
+      }
+
+      if (u) {
+        const existing = u.code || u.codigo || u.vinculo || u.bindingCode || u.codigoVinculacao || null;
+        if (existing) {
+          setStudentCode(existing);
+          return;
+        }
+
+        // não existe código: gerar um código simples baseado no id ou nome
+        const base = (u.id && String(u.id)) || (u.email && u.email.split('@')[0]) || u.name || Math.random().toString(36).slice(2, 8);
+        const gen = `NEURO${String(base).toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0,6)}`;
+
+        // Persistir no localStorage para manter consistente na sessão
+        try {
+          const updated = { ...u, code: gen };
+          localStorage.setItem('user', JSON.stringify(updated));
+        } catch (e) {
+          // se falhar, ainda assim mostramos o código gerado temporariamente
+        }
+        setStudentCode(gen);
+      }
+    } catch (e) {
+      console.error('Erro ao determinar studentCode', e);
+    }
+  }, [user]);
 
   // Close profile menu when clicking outside
   useEffect(() => {
@@ -242,6 +278,16 @@ function Dashboard() {
               </h4>
             </a>
           ))}
+
+          {/* Bloco do Código de Vinculação (aparece abaixo dos links) */}
+          {studentCode && (
+            <div className="mt-auto w-full p-3">
+              <div className="text-xs text-[#A0AEC0] mb-2">Código de vinculação</div>
+              <div className="w-full bg-[#0B1A28] border border-[#23364a] rounded-md p-2 text-center font-mono text-sm text-[#30BBDE]">
+                {studentCode}
+              </div>
+            </div>
+          )}
         </aside>
 
         {/* Conteúdo principal ao lado do aside no desktop */}

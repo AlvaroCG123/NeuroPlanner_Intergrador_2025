@@ -46,6 +46,9 @@ export default function Local() {
         navigate('/help');
       } else if (selectedProfile === 'responsible') {
         navigate('/vinculacao');
+      } else if (selectedProfile === 'institution') {
+        // levar para a tela de autenticação quando for uma instituição
+        navigate('/autenticacao');
       } else {
         navigate('/formulario');
       }

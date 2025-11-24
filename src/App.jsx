@@ -56,8 +56,8 @@ function App() {
       <Route path="/dashboard-responsavel" element={<DashboardResponsavel />} />
       <Route path="/dashboard-instituicao" element={<DashboardInstituicao />} />
       <Route path="/perfil-responsavel" element={<PerfilResponsavel />} />
-      <Route path="Autenticacao" element={<Autenticacao/>} />
-      <Route path="Codigo" element={<Codigo/>} />Codigo
+      <Route path="/autenticacao" element={<Autenticacao/>} />
+      <Route path="/codigo" element={<Codigo/>} />
     </Routes>
   )
 }

@@ -48,7 +48,7 @@ export default function Formulario6() {
                     </button>
                     </Link>
                   
-                  <Link to="/Login"><button className="text-[white] bg-[#182132] hover:bg-[#2e64c2] rounded-3xl px-6 py-1.5 text-xl cursor-pointer">
+                  <Link to="/dashboard"><button className="text-[white] bg-[#182132] hover:bg-[#2e64c2] rounded-3xl px-6 py-1.5 text-xl cursor-pointer">
                      Avançar
                   </button>
                   </Link>
