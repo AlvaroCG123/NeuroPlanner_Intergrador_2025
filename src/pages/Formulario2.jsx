@@ -11,7 +11,7 @@ export default function Formulario2() {
 
    return (
       <div className="min-h-screen w-full font-sans flex flex-col bg-[#182132] items-center justify-center lg:justify-center py-4 lg:py-0 px-4 lg:px-0">
-        <section className='flex flex-col gap-8 lg:gap-10 md:bg-[#202D40] bg-transparent rounded-3xl lg:rounded-4xl p-6 lg:px-39 lg:pt-5 lg:pb-20 max-w-4xl lg:max-w-none'>
+        <section className='flex flex-col gap-8 lg:gap-10 md:bg-[#202D40] bg-transparent rounded-3xl lg:rounded-4xl p-6 lg:px-39 lg:pt-5 lg:pb-20  max-w-4xl lg:max-w-337 lg:h-200'>
           <p className='text-[#6E8FCE] text-lg lg:text-2xl'>2/6</p>
           <div className='flex flex-col gap-8 lg:gap-10'>
             <p className='text-[white] text-2xl lg:text-4xl text-start lg:text-center'>Em relação à duração e estrutura, como você prefere organizar suas sessões de estudo?</p>
