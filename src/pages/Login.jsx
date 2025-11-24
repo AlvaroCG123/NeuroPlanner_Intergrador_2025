@@ -30,6 +30,10 @@ export default function Login() {
               navigate('/dashboard-responsavel');
               return;
             }
+            if (user && user.profile === 'institution') {
+              navigate('/dashboard-instituicao');
+              return;
+            }
           } catch (e) {}
           navigate('/dashboard');
         } else {

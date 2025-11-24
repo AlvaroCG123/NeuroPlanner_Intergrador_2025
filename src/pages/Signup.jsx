@@ -43,7 +43,18 @@ export default function Signup() {
       .then((user) => {
         // salvar usuario no localStorage para manter sessão simples
         localStorage.setItem('user', JSON.stringify(user));
-        // Redirecionamento padrão: levar para /welcome após cadastro
+        // Redirecionar conforme profile retornado do backend
+        try {
+          if (user && user.profile === 'responsible') {
+            navigate('/dashboard-responsavel');
+            return;
+          }
+          if (user && user.profile === 'institution') {
+            navigate('/dashboard-instituicao');
+            return;
+          }
+        } catch (e) {}
+        // padrão: levar para /welcome
         navigate('/welcome');
       })
       .catch((err) => {
