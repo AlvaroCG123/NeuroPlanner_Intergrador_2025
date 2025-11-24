@@ -217,16 +217,16 @@ function Dashboard() {
         className={`fixed inset-0 bg-black bg-opacity-60 flex justify-center items-start pt-24 lg:items-center lg:pt-0 z-50 ${isNoteModalOpen ? '' : 'hidden'}`}
       >
         <div className="bg-[#2D3B57] p-6 rounded-xl w-11/12 max-w-md text-white flex flex-col space-y-4 shadow-xl">
-          <h2 className="text-lg font-bold text-center text-[#30BBDE]">Adicionar Nova Nota</h2>
+          <h2 className="text-lg font-bold text-center text-[#30BBDE]">Adicionar Post-it</h2>
           <div className="flex flex-col space-y-1">
-            <label htmlFor="note-text" className="text-sm font-medium">Nota</label>
+            <label htmlFor="note-text" className="text-sm font-medium">Post-it</label>
             <textarea id="note-text" rows={3} 
               value={noteText}
               onChange={(e) => setNoteText(e.target.value)}
-              className="w-full p-2 text-sm rounded-lg border border-[#374D77] bg-[#182132] text-white resize-y focus:outline-none focus:border-[#30BBDE]" placeholder="Digite sua nota aqui..."></textarea>
+              className="w-full p-2 text-sm rounded-lg border border-[#374D77] bg-[#182132] text-white resize-y focus:outline-none focus:border-[#30BBDE]" placeholder="Digite o texto do post-it..."></textarea>
           </div>
           <div className="flex justify-end gap-3 mt-2">
-            <button id="save-note-btn" onClick={handleSaveNote} className="px-4 py-1.5 rounded-lg font-bold text-xs bg-[#4F77F1] hover:bg-[#3f66d4]">Salvar Nota</button>
+            <button id="save-note-btn" onClick={handleSaveNote} className="px-4 py-1.5 rounded-lg font-bold text-xs bg-[#4F77F1] hover:bg-[#3f66d4]">Salvar Post-it</button>
             <button id="cancel-note-btn" onClick={() => setIsNoteModalOpen(false)} className="px-4 py-1.5 rounded-lg font-bold text-xs bg-transparent border-2 border-[#374D77] text-[#A0AABF] hover:bg-[#374D77] hover:text-white">Cancelar</button>
           </div>
         </div>
