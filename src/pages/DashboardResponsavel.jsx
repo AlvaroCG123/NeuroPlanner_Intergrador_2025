@@ -21,7 +21,8 @@ export default function DashboardResponsavel(){
         { day: 'Seg', emoji: '😃' },
         { day: 'Ter', emoji: '😃' },
         { day: 'Qua', emoji: '😐' },
-        { day: 'Quin', emoji: '😃' },
+        { day: 'Qui', emoji: '😃' },
+        { day: 'Sex', emoji: '😃' },
         { day: 'Sab', emoji: '😃' },
         { day: 'Dom', emoji: '😃' },
     ]
@@ -60,6 +61,9 @@ export default function DashboardResponsavel(){
     }
 
     const percent = students.length ? Math.min(100, Math.round(students[0].progress || 0)) : 100
+    // se por algum motivo o progresso estiver em 0 e queremos mostrar o círculo cheio,
+    // exibir 100 para fins visuais (ajuste solicitado)
+    const shownPercent = percent === 0 ? 100 : percent
 
     // --- ESTRUTURA VISUAL DO PRIMEIRO CÓDIGO MANTIDA ABAIXO ---
     return (
@@ -137,7 +141,7 @@ export default function DashboardResponsavel(){
                             {/* Gráfico Circular */}
                             <div className="flex flex-col items-center gap-4">
                                 <div className="relative w-40 h-40 sm:w-44 sm:h-44 md:w-56 md:h-56 lg:w-72 lg:h-72 xl:w-80 xl:h-80 rounded-full flex items-center justify-center border-[#30BBDE] border-6 sm:border-8 md:border-12 lg:border-16">
-                                    <span className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold text-white">{percent}%</span>
+                                    <span className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold text-white">{shownPercent}%</span>
                                 </div>
                                 <div className="text-center">
                                     <h3 className="text-xl font-bold text-white">Das Atividades</h3>
@@ -148,7 +152,7 @@ export default function DashboardResponsavel(){
                             {/* Informações ao lado do gráfico */}
                             <div className="flex-1 pt-4 md:pl-8 text-center md:text-left w-full">
                                 <div className='flex flex-col items-center'>
-                                <h3 className="text-3xl font-bold text-white mb-4">Consistencia na rotina:</h3>
+                                <h3 className="text-3xl font-bold text-white mb-4">Consistência na rotina:</h3>
                                 
                                 <div className="bg-[#30BBDE] text-[#ffffff] font-bold text-lg py-2 px-8 rounded-lg inline-block mb-2">
                                     EXCELENTE
@@ -159,7 +163,7 @@ export default function DashboardResponsavel(){
                                 <h3 className="text-3xl font-bold text-white mb-4">Bem-Estar:</h3>
                                 
                                 {/* Grid de Dias e Emojis - AGORA FUNCIONA */}
-                                <div className="grid grid-cols-6 gap-2 w-full max-w-full overflow-x-auto mx-auto md:mx-0 mb-6">
+                                <div className="grid grid-cols-7 gap-2 w-full max-w-full overflow-x-auto mx-auto md:mx-0 mb-6">
                                     {weekData.map((item, i) => (
                                         <div key={i} className="flex flex-col items-center gap-2">
                                             <span className="text-gray-400 text-sm font-medium">{item.day}</span>
