@@ -20,14 +20,18 @@ export default function Welcome() {
             </Link>
           </div>
         </div>
-        <div className="w-full flex justify-between items-center px-6 md:px-8 pb-6 md:pb-8">
-          <div className="step-indicator text-xs text-[#A0AEC0]"> </div>
+        <div className="bottom-navigation w-full flex justify-between items-center px-6 md:px-12 py-6 sticky bottom-0 z-10">
+          <div className="nav-arrow left-arrow w-12 flex justify-center text-3xl text-white">
+            <Link to="/">&#10094;</Link>
+          </div>
+
           <div className="pagination-dots flex gap-3">
             <span className="dot w-2.5 h-2.5 rounded-full bg-[#63B3ED] opacity-0" />
             <span className="dot w-2.5 h-2.5 rounded-full bg-[#A0AEC0] opacity-0" />
             <span className="dot w-2.5 h-2.5 rounded-full bg-[#A0AEC0] opacity-0" />
           </div>
-          <div className="nav-arrow text-3xl text-white cursor-pointer hover:text-[#30BBDE] transition">
+
+          <div className="nav-arrow right-arrow w-12 flex justify-center text-3xl text-white cursor-pointer hover:text-[#30BBDE] transition">
             <Link to="/local">&#10095;</Link>
           </div>
         </div>
