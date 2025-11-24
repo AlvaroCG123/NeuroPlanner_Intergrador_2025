@@ -15,6 +15,7 @@ import Formulario from './pages/Formulario';
 import Rotinas from './pages/Rotinas';
 import Biblioteca from './pages/Biblioteca';
 import DiretorioSuporte from './pages/DiretorioSuporte';
+import DiretorioSuporteResponsavel from './pages/DiretorioSuporteResponsavel';
 import Calendario from './pages/Calendario';
 import Perfil from './pages/Perfil';
 import Formulario1 from './pages/Formulario1';
@@ -44,6 +45,7 @@ function App() {
       <Route path="/rotinas" element={<Rotinas />} />
       <Route path="/biblioteca" element={<Biblioteca />} />
       <Route path="/diretorio-suporte" element={<DiretorioSuporte />} />
+      <Route path="/diretorio-suporte-responsavel" element={<DiretorioSuporteResponsavel />} />
       <Route path="/calendario" element={<Calendario />} />
       <Route path="/perfil" element={<Perfil />} />
       <Route path="/calendario" element={<Calendario />} />

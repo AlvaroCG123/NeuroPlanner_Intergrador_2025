@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
 
 export default function Agenda() {
-    
-    // 💡 FUNÇÃO AUXILIAR: Obtém a data inicial (mês/ano) do localStorage
+    // Inicialização lazy do mês visualizado
     const getInitialDate = () => {
         try {
             const savedView = localStorage.getItem("calendarView");
@@ -14,60 +13,44 @@ export default function Agenda() {
         } catch (error) {
             console.error("Erro ao carregar calendarView do localStorage:", error);
         }
-        return new Date(); 
+        return new Date();
     };
-    
-    // 💡 FUNÇÃO AUXILIAR: Inicialização Lazy dos Moods (CORREÇÃO PRINCIPAL)
-    // Garante que o estado 'moods' carregue do localStorage ANTES da primeira renderização.
-    const getInitialMoods = () => {
+
+    // Eventos do calendário (por data)
+    const getInitialEvents = () => {
         try {
-            const saved = localStorage.getItem("moods");
-            if (saved) {
-                return JSON.parse(saved);
-            }
-        } catch (error) {
-            console.error("Erro ao carregar moods do localStorage na inicialização:", error);
-        }
-        return {}; // Retorna um objeto vazio se não houver nada salvo
+            const saved = localStorage.getItem('calendarEvents');
+            if (saved) return JSON.parse(saved);
+        } catch (e) { console.error('Erro ao carregar calendarEvents', e) }
+        return {};
     };
-    
-    // --- Estados da Aplicação ---
-    // Inicialização Lazy do estado 'moods'
-    const [moods, setMoods] = useState(getInitialMoods);
-    
-    // Inicialização Lazy do estado 'currentDate'
+
     const [currentDate, setCurrentDate] = useState(getInitialDate);
-    
+    const [events, setEvents] = useState(getInitialEvents);
     const [selectedDate, setSelectedDate] = useState(null);
-    const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+    const [showEventModal, setShowEventModal] = useState(false);
+    const [eventTitle, setEventTitle] = useState('');
 
-    const emojis = ["😀", "😐", "😢", "😡", "😴", "🤒"];
-
-    // 1️⃣ EFEITO DE SALVAR MOODS (Execute apenas quando 'moods' muda)
-    // Este useEffect é o único necessário para salvar o estado.
+    // Persistir visualização do mês
     useEffect(() => {
         try {
-            localStorage.setItem("moods", JSON.stringify(moods));
-        } catch (error) {
-            // Este erro é vital para identificar problemas de Quota (armazenamento cheio)
-            console.error("Erro ao salvar moods no localStorage:", error);
-        }
-    }, [moods]);
-    
-    // 2️⃣ EFEITO DE SALVAR O MÊS/ANO ATUAL VISUALIZADO
-    useEffect(() => {
-        try {
-            const dateToSave = {
-                year: currentDate.getFullYear(),
-                month: currentDate.getMonth()
-            };
+            const dateToSave = { year: currentDate.getFullYear(), month: currentDate.getMonth() };
             localStorage.setItem("calendarView", JSON.stringify(dateToSave));
         } catch (error) {
             console.error("Erro ao salvar calendarView no localStorage:", error);
         }
     }, [currentDate]);
 
-    // --- Lógica do Calendário (Sem alterações) ---
+    // Persistir eventos
+    useEffect(() => {
+        try {
+            localStorage.setItem('calendarEvents', JSON.stringify(events));
+        } catch (e) {
+            console.error('Erro ao salvar calendarEvents no localStorage:', e);
+        }
+    }, [events]);
+
+    // Calendário
     const daysOfWeek = ["DOM", "SEG", "TER", "QUA", "QUI", "SEX", "SÁB"];
     const year = currentDate.getFullYear();
     const month = currentDate.getMonth();
@@ -77,73 +60,50 @@ export default function Agenda() {
     const startDay = firstDayOfMonth.getDay();
 
     const days = [];
-    for (let i = 0; i < startDay; i++) {
-        days.push(null);
-    }
-    for (let i = 1; i <= totalDays; i++) {
-        days.push(i);
-    }
+    for (let i = 0; i < startDay; i++) days.push(null);
+    for (let i = 1; i <= totalDays; i++) days.push(i);
 
-    const handlePrevMonth = () => {
-        setCurrentDate(new Date(year, month - 1));
-    };
-
-    const handleNextMonth = () => {
-        setCurrentDate(new Date(year, month + 1));
-    };
+    const handlePrevMonth = () => setCurrentDate(new Date(year, month - 1));
+    const handleNextMonth = () => setCurrentDate(new Date(year, month + 1));
 
     const handleDayClick = (day) => {
         if (!day) return;
         setSelectedDate(new Date(year, month, day));
-        setShowEmojiPicker(true);
+        setEventTitle('');
+        setShowEventModal(true);
     };
 
-    const handleSelectEmoji = (emoji) => {
+    const handleSaveEvent = () => {
         if (!selectedDate) return;
-        const key = selectedDate.toDateString(); 
-        setMoods((prev) => ({
-            ...prev,
-            [key]: emoji,
-        }));
-        
-        setShowEmojiPicker(false);
+        const title = (eventTitle || '').trim();
+        if (!title) { alert('Por favor, insira um título para o evento.'); return; }
+        const key = selectedDate.toDateString();
+        setEvents(prev => ({ ...prev, [key]: Array.isArray(prev[key]) ? [...prev[key], { title }] : [{ title }] }));
+        setEventTitle('');
+        setShowEventModal(false);
         setSelectedDate(null);
     };
 
-    const getEmojiForDay = (day) => {
-        const key = new Date(year, month, day).toDateString(); 
-        return moods[key];
+    const getEventsForDay = (day) => {
+        const key = new Date(year, month, day).toDateString();
+        return events[key] || [];
     };
-    
+
     const isTodayFn = (day) => {
         const today = new Date();
-        return (
-            day &&
-            today.getDate() === day &&
-            today.getMonth() === month &&
-            today.getFullYear() === year
-        );
-    }
+        return day && today.getDate() === day && today.getMonth() === month && today.getFullYear() === year;
+    };
 
-    // --- Renderização do Componente (Sem alterações de estrutura) ---
     return (
-        <div className="min-h-screen bg-[#182132] text-white font-sans flex flex-col items-center px-4 sm:px-6">            
+        <div className="min-h-screen bg-[#182132] text-white font-sans flex flex-col items-center px-4 sm:px-6">
             <header className="pt-5 flex justify-between items-center px-8 py-4 w-full">
                 <Link to="/dashboard" className="flex items-center no-underline text-white">
-                    <img 
-                        src="LOGONEURO.png" 
-                        alt="NeuroPlanner Logo" 
-                        className="w-12 mr-3 rounded" 
-                    />
-                    <h1 className="text-2xl md:text-3xl font-bold">
-                        <span className="text-[#30BBDE]">Neuro</span>Planner
-                    </h1>
+                    <img src="LOGONEURO.png" alt="NeuroPlanner Logo" className="w-12 mr-3 rounded" />
+                    <h1 className="text-2xl md:text-3xl font-bold"><span className="text-[#30BBDE]">Neuro</span>Planner</h1>
                 </Link>
                 <div className="button">
                     <button className="bg-transparent border-none">
-                        <Link to="/dashboard" className="text-white text-xl md:text-2xl no-underline hover:text-[#30BBDE] transition-colors font-semibold">
-                            Voltar
-                        </Link>
+                        <Link to="/dashboard" className="text-white text-xl md:text-2xl no-underline hover:text-[#30BBDE] transition-colors font-semibold">Voltar</Link>
                     </button>
                 </div>
             </header>
@@ -151,65 +111,34 @@ export default function Agenda() {
             <div className="flex flex-col items-center w-full pt-10">
 
                 <div className="w-full flex justify-between max-w-5xl mb-6 mt-4">
-                    <button
-                        onClick={handlePrevMonth}
-                        className="p-3 text-white rounded-full transition-colors hover:bg-[#1B2A47] active:scale-95 text-3xl"
-                        aria-label="Mês Anterior"
-                    >
-                        &lt;
-                    </button>
-                    <h2 className="text-3xl font-bold text-white tracking-wider flex items-center capitalize">
-                        {currentDate.toLocaleDateString("pt-BR", { month: "long", year: "numeric" })}
-                    </h2>
-                    <button
-                        onClick={handleNextMonth}
-                        className="p-3 text-white rounded-full transition-colors hover:bg-[#1B2A47] active:scale-95 text-3xl"
-                        aria-label="Próximo Mês"
-                    >
-                        &gt;
-                    </button>
+                    <button onClick={handlePrevMonth} className="p-3 text-white rounded-full transition-colors hover:bg-[#1B2A47] active:scale-95 text-3xl" aria-label="Mês Anterior">&lt;</button>
+                    <h2 className="text-3xl font-bold text-white tracking-wider flex items-center capitalize">{currentDate.toLocaleDateString("pt-BR", { month: "long", year: "numeric" })}</h2>
+                    <button onClick={handleNextMonth} className="p-3 text-white rounded-full transition-colors hover:bg-[#1B2A47] active:scale-95 text-3xl" aria-label="Próximo Mês">&gt;</button>
                 </div>
 
                 <div className="w-full max-w-5xl shadow-2xl bg-[#1B2A47] rounded-3xl overflow-hidden p-4 sm:p-6 mb-10">
-                    
+
                     <div className="grid grid-cols-7 gap-1 sm:gap-4 mb-3 sm:mb-4 border-b border-[#30BBDE]/30 pb-3">
-                        {daysOfWeek.map((day) => (
-                            <div key={day} className="text-[#30BBDE] text-sm sm:text-lg font-extrabold text-center uppercase">
-                                {day}
-                            </div>
+                        {daysOfWeek.map((d) => (
+                            <div key={d} className="text-[#30BBDE] text-sm sm:text-lg font-extrabold text-center uppercase">{d}</div>
                         ))}
                     </div>
 
                     <div className="grid grid-cols-7 gap-1 sm:gap-4">
                         {days.map((day, idx) => {
-                            const emoji = day ? getEmojiForDay(day) : null;
+                            const dayEvents = day ? getEventsForDay(day) : [];
                             const dateKey = day ? new Date(year, month, day).toDateString() : null;
                             const isSelected = selectedDate && dateKey === selectedDate.toDateString();
                             const isToday = isTodayFn(day);
-                            
+
                             return (
-                                <div
-                                    key={idx}
-                                    onClick={() => handleDayClick(day)}
-                                    className={`
-                                        group h-20 sm:h-28 md:h-32 p-1 sm:p-2 flex flex-col items-start justify-between rounded-xl transition-all relative
-                                        ${
-                                            day
-                                                ? "bg-[#24395B] hover:bg-[#30BBDE]/30 cursor-pointer shadow-md"
-                                                : "bg-transparent cursor-default"
-                                        }
-                                        ${isSelected ? "ring-2 ring-offset-2 ring-offset-[#1B2A47] ring-[#30BBDE] shadow-lg shadow-[#30BBDE]/20" : ""}
-                                        ${isToday && day ? "border-2 border-dashed border-white/50" : ""} 
-                                    `}
-                                >
+                                <div key={idx} onClick={() => handleDayClick(day)} className={`group h-20 sm:h-28 md:h-32 p-1 sm:p-2 flex flex-col items-start justify-between rounded-xl transition-all relative ${day ? "bg-[#24395B] hover:bg-[#30BBDE]/30 cursor-pointer shadow-md" : "bg-transparent cursor-default"} ${isSelected ? "ring-2 ring-offset-2 ring-offset-[#1B2A47] ring-[#30BBDE] shadow-lg shadow-[#30BBDE]/20" : ""} ${isToday && day ? "border-2 border-dashed border-white/50" : ""}`}>
                                     {day && (
                                         <>
-                                            <span className={`text-sm sm:text-base font-bold transition-colors ${emoji ? 'text-gray-300 group-hover:text-white' : 'text-white'}`}>
-                                                {day}
-                                            </span>
-                                            <span className="text-2xl sm:text-4xl absolute bottom-1 right-1 sm:bottom-2 sm:right-2 transform transition-transform group-hover:scale-110">
-                                                {emoji}
-                                            </span>
+                                            <span className={`text-sm sm:text-base font-bold transition-colors text-white`}>{day}</span>
+                                            {dayEvents.length > 0 && (
+                                                <div className="absolute bottom-1 left-1 sm:bottom-2 sm:left-2 text-xs text-gray-200 max-w-[60%] truncate">{dayEvents[0].title}</div>
+                                            )}
                                         </>
                                     )}
                                 </div>
@@ -219,38 +148,24 @@ export default function Agenda() {
                 </div>
             </div>
 
-            {/* Modal de Seleção de Emoji */}
-            {showEmojiPicker && selectedDate && (
+            {/* Modal de Criação de Evento */}
+            {showEventModal && selectedDate && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70 backdrop-blur-sm p-4">
                     <div className="bg-[#1B2A47] p-8 rounded-3xl shadow-2xl flex flex-col items-center space-y-6 max-w-md w-full border border-[#30BBDE]/50">
-                        <h3 className="text-xl font-semibold text-white text-center">
-                            Como você se sentiu em <br />
-                            <span className="text-[#30BBDE] font-mono block mt-1">
-                                {selectedDate.toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
-                            </span>
-                            ?
+                        <h3 className="text-xl font-semibold text-white text-center">Crie um evento para <br />
+                            <span className="text-[#30BBDE] font-mono block mt-1">{selectedDate.toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}</span>
                         </h3>
-                        <div className="flex flex-wrap justify-center gap-4">
-                            {emojis.map((emoji) => (
-                                <button
-                                    key={emoji}
-                                    onClick={() => handleSelectEmoji(emoji)}
-                                    className="text-4xl p-2 rounded-full hover:bg-[#30BBDE]/20 transition-all transform hover:scale-125 active:scale-90"
-                                    aria-label={`Selecionar humor ${emoji}`}
-                                >
-                                    {emoji}
-                                </button>
-                            ))}
+                        <div className="w-full flex flex-col items-center gap-4">
+                            <input value={eventTitle} onChange={(e) => setEventTitle(e.target.value)} placeholder="Título do evento" className="w-full px-4 py-2 rounded-lg bg-[#24395B] text-white placeholder-gray-400 focus:outline-none" />
                         </div>
-                        <button
-                            onClick={() => setShowEmojiPicker(false)}
-                            className="mt-4 px-4 py-2 text-sm font-medium text-gray-300 bg-[#24395B] rounded-full hover:bg-[#30BBDE] hover:text-[#182132] transition-colors"
-                        >
-                            Cancelar
-                        </button>
+                        <div className="flex gap-3">
+                            <button onClick={handleSaveEvent} className="mt-4 px-4 py-2 text-sm font-medium text-gray-300 bg-[#24395B] rounded-full hover:bg-[#30BBDE] hover:text-[#182132] transition-colors">Salvar Evento</button>
+                            <button onClick={() => setShowEventModal(false)} className="mt-4 px-4 py-2 text-sm font-medium text-gray-300 bg-[#24395B] rounded-full hover:bg-[#30BBDE] hover:text-[#182132] transition-colors">Cancelar</button>
+                        </div>
                     </div>
                 </div>
             )}
+
         </div>
     );
 }

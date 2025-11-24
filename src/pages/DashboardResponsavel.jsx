@@ -88,7 +88,7 @@ export default function DashboardResponsavel(){
                     {[
                         { icon: "/pessoa.png", alt: "Pessoa", text: "Perfil", path: "/perfil-responsavel" },
                         { icon: "/pessoaConfig.png", alt: "Configuração", text: "Configurações", path: "/configuracoes" },
-                        { icon: "/seta.png", alt: "Seta", text: "Diretório de Suporte", path: "/diretorio-suporte" }
+                        { icon: "/seta.png", alt: "Seta", text: "Diretório de Suporte", path: "/diretorio-suporte-responsavel" }
                     ].map((item) => (
                         <a key={item.text} href={item.path} className="mt-2 flex items-center p-2 rounded-md h-[45px] cursor-pointer text-white text-base mb-2 hover:bg-[#2c406d] transition duration-150 ease-in-out">
                             <div className="flex items-center justify-center shrink-0 mr-3">
