@@ -88,6 +88,13 @@ export default function PerfilResponsavel() {
         try { updated = bodyText ? JSON.parse(bodyText) : null; } catch (e) { updated = null; }
 
         if (updated) {
+          try {
+            // evitar estourar quota do localStorage com imagens muito grandes (data URLs)
+            if (updated.photo && typeof updated.photo === 'string' && updated.photo.startsWith('data:') && updated.photo.length > 150000) {
+              // não armazenar o data URL completo em localStorage
+              updated.photo = '';
+            }
+          } catch (e) {}
           localStorage.setItem('user', JSON.stringify(updated));
           setUser(updated);
         }
