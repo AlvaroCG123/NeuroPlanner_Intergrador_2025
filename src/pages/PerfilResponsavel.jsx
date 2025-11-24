@@ -66,21 +66,37 @@ export default function PerfilResponsavel() {
       photo: photoPreview || user.photo || ''
     };
 
-    fetch(`http://localhost:4000/users/${user.id}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    })
-      .then((res) => res.json())
-      .then((updated) => {
-        localStorage.setItem('user', JSON.stringify(updated));
-        setUser(updated);
+    (async () => {
+      try {
+        const res = await fetch(`http://localhost:4000/users/${user.id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        let bodyText = null;
+        try { bodyText = await res.text(); } catch (e) { /* ignore */ }
+
+        if (!res.ok) {
+          console.error('Erro ao salvar perfil - resposta não OK', res.status, bodyText);
+          alert(`Erro ao salvar perfil (status ${res.status})\n${bodyText || ''}`);
+          return;
+        }
+
+        // tentar parsear JSON do body, se houver
+        let updated = null;
+        try { updated = bodyText ? JSON.parse(bodyText) : null; } catch (e) { updated = null; }
+
+        if (updated) {
+          localStorage.setItem('user', JSON.stringify(updated));
+          setUser(updated);
+        }
         alert('Perfil salvo.');
-      })
-      .catch((err) => {
+      } catch (err) {
         console.error('Erro ao salvar perfil', err);
-        alert('Erro ao salvar perfil');
-      });
+        alert(`Erro ao salvar perfil: ${err.message || err}`);
+      }
+    })();
   };
 
   return (
