@@ -13,12 +13,10 @@ export default function Signup() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Envia os dados para a fake API (json-server)
-    // Normalize email/password to avoid mismatches (trim + lowercase for email)
+
     const normalizedEmail = email.trim().toLowerCase();
     const normalizedPassword = password.trim();
 
-    // Prepare payload (inclui profile se o usuário já tiver selecionado em /local)
     let selectedProfile = 'student';
     try {
       const sp = localStorage.getItem('selectedProfileOption');

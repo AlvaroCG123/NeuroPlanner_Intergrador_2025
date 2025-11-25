@@ -20,7 +20,7 @@ export default function Perfil() {
       const u = JSON.parse(raw);
       setUser(u);
       setName(u.name || '');
-      // If you previously stored birth/contact etc on the user, load them. Otherwise keep empty.
+    
       setBirth(u.birth || '');
       setContact(u.contact || '');
       setCondition(u.condition || '');

@@ -6,7 +6,6 @@ export default function Biblioteca() {
   const [pais, setPais] = useState("Brasil");
   const [estado, setEstado] = useState("");
 
-  // PAISES E ESTADOS DINÂMICOS
   const regioes = {
     Brasil: [
       "Rio Grande do Sul",

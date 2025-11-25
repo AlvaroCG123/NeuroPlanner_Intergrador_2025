@@ -38,12 +38,56 @@ function Dashboard() {
     setTotalSeconds(initialTimeInSeconds);
     setTimerState('stopped');
   };
+  
+  // Reusable function to save data to the mock API and update local state/localStorage
+  const saveUserDataToApi = async (updatedData) => {
+    // Only proceed if user is available and has an ID for API call
+    if (!user || !user.id) {
+        console.error('Usuário não autenticado ou sem ID para salvar dados.');
+        return;
+    }
+    
+    // Create the full payload by merging existing user data with the new updates
+    const payload = {
+        ...user,
+        ...updatedData
+    };
+    
+    try {
+        const res = await fetch(`http://localhost:4000/users/${user.id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+
+        if (res.ok) {
+            const updatedUser = await res.json();
+            // Update user state and localStorage
+            setUser(updatedUser); 
+            localStorage.setItem('user', JSON.stringify(updatedUser));
+            console.log('Dados salvos na API com sucesso.');
+        } else {
+            console.error('Erro ao salvar dados na API. Status:', res.status);
+            alert('Erro ao salvar dados da rotina.');
+        }
+    } catch (err) {
+        console.error('Erro de rede ao salvar dados:', err);
+        alert('Erro de conexão ao salvar dados da rotina.');
+    }
+  };
 
   useEffect(() => {
     // load user from localStorage to show name/photo
     try {
       const raw = localStorage.getItem('user');
-      if (raw) setUser(JSON.parse(raw));
+      if (raw) {
+        const u = JSON.parse(raw);
+        setUser(u);
+
+        // Load activities and notes from user data, fallback to initial/empty state
+        setActivities(u.activities || initialActivities);
+        setNotes(u.notes || []);
+      }
     } catch (e) {
       console.error('Erro ao ler usuário do localStorage', e);
     }
@@ -157,31 +201,64 @@ function Dashboard() {
       description: activityDescription || 'sem descrição',
       completed: false,
     };
-    setActivities(prev => [newActivity, ...prev]);
+    
+    // Update local state
+    const newActivities = [newActivity, ...activities];
+    setActivities(newActivities);
+    
+    // Save to API
+    saveUserDataToApi({ activities: newActivities });
+
     setActivityTitle('');
     setActivityDescription('');
     setIsActivityModalOpen(false);
   };
 
   const toggleActivityCompletion = (id) => {
-    setActivities(prev => prev.map(a => a.id === id ? { ...a, completed: !a.completed } : a));
+    const newActivities = activities.map(a => a.id === id ? { ...a, completed: !a.completed } : a);
+    
+    // Update local state
+    setActivities(newActivities);
+    
+    // Save to API
+    saveUserDataToApi({ activities: newActivities });
   };
 
   const handleSaveNote = () => {
     if (!noteText.trim()) return;
     const nextId = notes.length ? Math.max(...notes.map(n => n.id)) + 1 : 1;
     const newNote = { id: nextId, text: noteText, completed: false };
-    setNotes(prev => [newNote, ...prev]);
+    
+    // Update local state
+    const newNotes = [newNote, ...notes];
+    setNotes(newNotes);
+    
+    // Save to API
+    saveUserDataToApi({ notes: newNotes });
+
     setNoteText('');
     setIsNoteModalOpen(false);
   };
 
   const deleteNote = (id) => {
-    setNotes(prev => prev.filter(n => n.id !== id));
+    const newNotes = notes.filter(n => n.id !== id);
+    
+    // Update local state
+    setNotes(newNotes);
+    
+    // Save to API
+    saveUserDataToApi({ notes: newNotes });
   };
   
   const toggleNoteCompletion = (id) => {
-    setNotes(prev => prev.map(n => n.id === id ? { ...n, completed: !n.completed } : n));
+    // This function is not used in the original JSX, but here is the logic for completeness
+    const newNotes = notes.map(n => n.id === id ? { ...n, completed: !n.completed } : n);
+    
+    // Update local state
+    setNotes(newNotes);
+    
+    // Save to API
+    saveUserDataToApi({ notes: newNotes });
   };
   
   return (

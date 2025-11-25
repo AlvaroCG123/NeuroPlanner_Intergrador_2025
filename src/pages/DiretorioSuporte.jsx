@@ -4,11 +4,9 @@ import { Link } from "react-router-dom";
 export default function DiretorioSuporte() {
   return (
     <div className="min-h-screen bg-[#182132] text-white font-inter flex flex-col">
-      {/* HEADER */}
+
       <header className="w-full py-6 px-8 flex items-center justify-between bg-[#182132]">
         
-        {/* --- VERSÃO MOBILE: Ícone Menu (Hambúrguer) --- */}
-        {/* O 'md:hidden' faz ele sumir em telas de PC */}
         <button className="block md:hidden text-white hover:opacity-80">
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <line x1="3" y1="12" x2="21" y2="12"></line>
@@ -17,8 +15,6 @@ export default function DiretorioSuporte() {
             </svg>
         </button>
 
-        {/* --- VERSÃO PC: Logo NeuroPlanner --- */}
-        {/* O 'hidden md:flex' faz ele sumir no Mobile e aparecer no PC */}
         <Link to="/dashboard" className="hidden md:flex items-center no-underline text-white">
           <img src="/LOGONEURO.png" alt="NeuroPlanner Logo" className="w-12 mr-3" />
           <h1 className="text-2xl md:text-3xl font-bold">

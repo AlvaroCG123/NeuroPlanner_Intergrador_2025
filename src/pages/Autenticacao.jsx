@@ -7,10 +7,9 @@ export default function Autenticacao() {
   const [requested, setRequested] = useState(false);
   const navigate = useNavigate();
 
-  // Formata o CNPJ para exibição e limita a 14 dígitos
   const formatCnpj = (value) => {
     const digits = (value || '').replace(/\D/g, '').slice(0, 14);
-    // Formatação simples: 00.000.000/0000-00
+
     let formatted = digits;
     if (digits.length > 12) {
       formatted = digits.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, '$1.$2.$3/$4-$5');

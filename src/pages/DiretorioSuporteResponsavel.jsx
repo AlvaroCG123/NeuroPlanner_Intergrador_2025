@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 export default function DiretorioSuporteResponsavel() {
   return (
     <div className="min-h-screen bg-[#182132] text-white font-inter flex flex-col">
-      {/* HEADER */}
+
       <header className="w-full py-6 px-8 flex items-center justify-between bg-[#182132]">
         <Link to="/dashboard-responsavel" className="hidden md:flex items-center no-underline text-white">
           <img src="/LOGONEURO.png" alt="NeuroPlanner Logo" className="w-12 mr-3" />

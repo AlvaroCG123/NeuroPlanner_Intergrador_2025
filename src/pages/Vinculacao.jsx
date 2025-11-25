@@ -10,15 +10,14 @@ export default function Vinculacao() {
   const handleRequest = () => {
     if (!code.trim()) return;
     setRequested(true);
-    // show animated confirmation first, then navigate
+
     setShowConfirmation(true);
     setTimeout(() => {
-      // after animation, go to dashboard of responsável
+
       navigate('/dashboard-responsavel');
     }, 2000);
   };
 
-  // SVG Icons para as setas de navegação
   const ChevronLeft = () => (
     <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
       <path d="M15 18l-6-6 6-6" />

@@ -4,7 +4,6 @@ import { Link, useNavigate } from 'react-router-dom';
 export default function Codigo() {
   const navigate = useNavigate();
 
-  // tenta obter código do usuário ou da instituição no localStorage
   let code = null;
   try {
     const rawUser = localStorage.getItem('user');

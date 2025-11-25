@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
 
 export default function Agenda() {
-    // Inicialização lazy do mês visualizado
+
     const getInitialDate = () => {
         try {
             const savedView = localStorage.getItem("calendarView");
@@ -16,7 +16,6 @@ export default function Agenda() {
         return new Date();
     };
 
-    // Eventos do calendário (por data)
     const getInitialEvents = () => {
         try {
             const saved = localStorage.getItem('calendarEvents');
